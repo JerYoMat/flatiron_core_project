@@ -25,7 +25,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'dotenv-rails'
 
-
+gem "aws-sdk-s3", require: false
 
 group :development, :test do
   gem 'pry' # You really want this to debug
