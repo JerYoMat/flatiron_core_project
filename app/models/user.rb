@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_many :tips 
   has_many :ratings 
-  before_save { self.email = email.downcase }
+  before_save { email.downcase! }
 
   has_secure_password 
   validates :username,  presence: true, length: { maximum: 255 }, uniqueness: {case_sensitive: false}
@@ -9,5 +9,5 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX }, uniqueness: {case_sensitive: false}
   validates :school_relationship, inclusion: { in: %w(student graduate not_affiliated)}
-  validates :password, presence: true
+  validates :password, presence: true, length: {minimum: 7}
 end

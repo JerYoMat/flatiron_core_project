@@ -31,6 +31,12 @@ class UserTest < ActiveSupport::TestCase
     assert_not @new_user.valid?
   end
 
+#password quality control
+test "password should have a minimum length" do
+  @new_user.password = @new_user.password_confirmation = "a" * 6
+  assert_not @new_user.valid?
+end
+
 #Check for length on string attributes
   test "name should not be too long" do
     @new_user.username = "a" * 256
@@ -94,6 +100,8 @@ test "email should be unique" do
   @new_user.save
   assert_not duplicate_user.valid?
 end
+
+
 
 
 end
