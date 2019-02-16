@@ -5,18 +5,37 @@
     color: white;
 
 }
-
-@media (min-width: 992px) { 
+/*This is the effect that underlines items in the hover on the expanded menu */
+@media (min-width: 768px) { 
   .nav-item::after{content:'';display:block;width:0px;height:2px;background:#00b3e6;transition: 0.5s;}
   .nav-item:hover::after{width:95%;}
   .nav-item .nav-link:hover{color:#00b3e6;}
   .nav-link{transition:0.2s;}
-  .nav-item { 
-    margin-bottom: -0.25em;
+  .nav-link { 
+    margin-bottom: -0.5em;
   }
-  
-  
+  #home_icon{padding-left: 1em;}
+  #big_nav_icons{ display:block}
+  #small_nav_text{ display:none;}
+
 }
+@media (max-width: 767px) {
+  #big_nav_icons{ display:none}
+  #small_nav_text{ display:block;
+  text-align: left;}
+}
+
+hr.thin {
+height: 1px;
+line-height: 5px;
+margin: 0px;
+padding: 0;
+border: 0;
+color: whitesmoke;
+background-color: whitesmoke;
+width: 100%;
+} 
+
  
 
 #slash {
@@ -26,16 +45,11 @@
   line-height: 90%;
 }
 
-#home_icon{
-margin-left: 1em;
-&:hover {
-  color: #00b3e6;
-}
-}
 #logo {
   float: left;
   margin-right: 1em;
   font-size: 1.4em;
+  line-height: 1em;
   color: white;
   letter-spacing: -1px;
   font-weight: bold;
@@ -46,9 +60,40 @@ margin-left: 1em;
 }
 
 
+/* footer */
+
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid #eaeaea;
+  color: #777;
+}
+
+footer a {
+  color: #555;
+}
+
+footer a:hover {
+  color: #222;
+}
+
+footer small {
+  float: left;
+}
+
+footer ul {
+  float: right;
+  list-style: none;
+}
+
+footer ul li {
+  float: left;
+  margin-left: 15px;
+}
 
 /* universal */
 
+body { padding-top: 55px;}
 
 section {
   overflow: auto;

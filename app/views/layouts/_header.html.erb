@@ -1,30 +1,41 @@
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top">
     <div class="container col-md-10 offset-col-1" >
     <a id="logo" class="navbar-brand" href="<%= root_path %>"><span id="slash">//</span>learnHELP</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="<%= root_path %>">Home</a>
+           <label for="nav-link" class="sr-only">Browse Curriculum</label>
+          <a class="nav-link" href="#">Browse Curriculum</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Browse Course</a>
+          <label for="nav-link" class="sr-only">New Tips</label>
+          <a class="nav-link" href="#">New Tips</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Hot Tips</a>
+          <label for="nav-link" class="sr-only">Contributors</label>
+          <a class="nav-link" href="#">Contributors</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Add Tips</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<%= static_pages_credits_path %>">Credits</a>
-        </li>
+      
       </ul>
-       <i id="home_icon" class="fa fa-user-plus fa-lg"></i>
-       <i id="home_icon" class="fa fa-sign-in fa-lg"></i>
-  </div> 
+      <div id="big_nav_icons">
+       <a id="home_icon" class="fa fa-user-plus fa-lg"></a>
+       <a id="home_icon" class="fa fa-sign-in fa-lg"></a>
+      </div> 
+      <div id="small_nav_text">
+       <hr class="thin">
+       <div class=navbar-nav mr-auto>
+       <div class="nav-item">
+       <a id="home_icon" class="nav-link">Sign Up</a>
+       </div>
+       <div class="nav-item">
+       <a id="home_icon" class="nav-link">Sign In</a>
+       </div>
+      </div>
+      </div> 
   </div>
 </nav>
 
