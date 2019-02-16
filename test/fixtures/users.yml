@@ -15,4 +15,4 @@ fixture_user_three:
   username: third_test_user
   email: third@test_user.com
   password_digest: BCrypt::Password.create('password')
-  school_relationship: not affiliated
+  school_relationship: not_affiliated
