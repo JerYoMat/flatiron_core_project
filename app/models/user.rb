@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :tips 
   has_many :ratings 
+  before_save { self.email = email.downcase }
 
   has_secure_password 
   validates :username,  presence: true, length: { maximum: 255 }, uniqueness: {case_sensitive: false}
