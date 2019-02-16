@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-md navbar-dark">
+    <div class="container col-md-10 offset-col-1" >
+    <a id="logo" class="navbar-brand" href="<%= root_path %>"><span id="slash">//</span>learnHELP</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="<%= root_path %>">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Course Units</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Hot Tips</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contribute</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= static_pages_credits_path %>">Credits</a>
+        </li>
+      </ul>
+       <i id="home_icon" class="fa fa-user-plus fa-lg"></i>
+       <i id="home_icon" class="fa fa-sign-in fa-lg"></i>
+  </div> 
+  </div>
+</nav>
+
+<script>
+$(function(){
+  $('a.nav-link').each(function() {
+    if ($(this).prop('href') == window.location.href) {
+      $(this).addClass('active');
+    }
+    else {
+       $(this).removeClass('active');
+    }
+  });
+});
+</script>

@@ -1,0 +1,31 @@
+.navbar {
+    background-color: #013240;
+    color: white;
+
+}
+
+#slash {
+    color: #00b3e6;
+    font-size: 1.5em;
+    margin-right: 3px;
+    line-height: 90%;
+}
+
+#home_icon{
+  margin-left: 1em;
+  &:hover {
+    color: #00b3e6;
+  }
+}
+#logo {
+    float: left;
+    margin-right: 1em;
+    font-size: 1.4em;
+    color: white;
+    letter-spacing: -1px;
+    font-weight: bold;
+    &:hover {
+      color: #00b3e6;
+      text-decoration: none;
+    }
+  }
