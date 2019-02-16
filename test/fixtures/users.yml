@@ -1,13 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  username: MyString
-  email: MyString
-  password_digest: MyString
-  school_relationship: MyString
+fixture_user_one:
+  username: main_test_user
+  email:main@test_user.com
+  password_digest: BCrypt::Password.create('password')
+  school_relationship: student
+ 
+fixture_user_two:
+  username: second_test_user
+  email:second@test_user.com
+  password_digest: BCrypt::Password.create('password')
+  school_relationship: graduate
 
-two:
-  username: MyString
-  email: MyString
-  password_digest: MyString
-  school_relationship: MyString
+fixture_user_three:
+  username: third_test_user
+  email:third@test_user.com
+  password_digest: BCrypt::Password.create('password')
+  school_relationship: not affiliated
