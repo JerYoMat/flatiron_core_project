@@ -29,7 +29,7 @@ class UserTest < ActiveSupport::TestCase
   end
 #Check for length on string attributes
   test "name should not be too long" do
-    @new_user.username = "a" * 51
+    @new_user.username = "a" * 255
     assert_not @new_user.valid?
   end
 
