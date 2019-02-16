@@ -2,13 +2,11 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   setup do 
-   @user = users(:fixture_user_one)
    @new_user = User.new(username: "model test user", email: "model@test.com", password: "password", password_confirmation: "password", school_relationship: "student")
   end 
 
 #Check that the users that should work are valid
   test 'should be valid' do 
-    assert @user.valid?
     assert @new_user.valid?
   end 
 
@@ -29,7 +27,7 @@ class UserTest < ActiveSupport::TestCase
   end
 #Check for length on string attributes
   test "name should not be too long" do
-    @new_user.username = "a" * 255
+    @new_user.username = "a" * 256
     assert_not @new_user.valid?
   end
 
