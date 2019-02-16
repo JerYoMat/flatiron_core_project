@@ -25,6 +25,12 @@ class UserTest < ActiveSupport::TestCase
     @new_user.school_relationship = "     "
     assert_not @new_user.valid?
   end
+
+  test "password should be present" do
+    @new_user.password = "     "
+    assert_not @new_user.valid?
+  end
+
 #Check for length on string attributes
   test "name should not be too long" do
     @new_user.username = "a" * 256
@@ -70,6 +76,23 @@ test "invalid school_relationship answers are rejected" do
     @new_user.email = invalid_status
     assert_not @new_user.valid?, "#{invalid_status.inspect} should be invalid"
   end
+end
+
+#Uniqueness 
+test "username should be unique" do
+  duplicate_user = @new_user.dup
+  duplicate_user.username = @new_user.username.upcase
+  duplicate_user.email = "something@gmail.com"
+  @new_user.save
+  assert_not duplicate_user.valid?
+end
+
+test "email should be unique" do
+  duplicate_user = @new_user.dup
+  duplicate_user.username = "something"
+  duplicate_user.email = @new_user.email.upcase
+  @new_user.save
+  assert_not duplicate_user.valid?
 end
 
 
