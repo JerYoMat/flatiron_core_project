@@ -2,20 +2,20 @@
 fixture_user_one:
   id: 1
   username: main_test_user
-  email: main@test_user.com
+  email: main@testuser.com
   password_digest: <%= BCrypt::Password.create('password') %>
   school_relationship: student
  
 fixture_user_two:
   id: 2
   username: second_test_user
-  email: second@test_user.com
+  email: second@testuser.com
   password_digest: <%= BCrypt::Password.create('password') %>
   school_relationship: graduate
 
 fixture_user_three:
   id: 3
   username: third_test_user
-  email: third@test_user.com
+  email: third@testuser.com
   password_digest: <%= BCrypt::Password.create('password') %>
   school_relationship: not_affiliated
