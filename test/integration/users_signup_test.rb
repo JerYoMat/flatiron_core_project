@@ -23,6 +23,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                          password_confirmation: "long_enough",
                                          school_relationship: "student" } }
     end
-   
+    follow_redirect!
+    assert_template 'users/show'
   end
 end
