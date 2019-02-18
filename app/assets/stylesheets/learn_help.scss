@@ -96,6 +96,12 @@ footer {
   border-top: 1px solid #eaeaea;
   color: #777;
 }
+footer #bottom_row {
+  background-color: #d6d7d9;
+}
+footer nav{
+  height: 2em;
+}
 
 footer a {
   color: #555;
@@ -106,14 +112,18 @@ footer a:hover {
 }
 
 footer small {
-  float: left;
+  text-align: center;
+  
 }
 
-footer ul {
+footer div.row nav ul {
   float: right;
   list-style: none;
 }
 
+footer div.row nav ul a {
+  font-size: 0.75em;
+}
 footer ul li {
   float: left;
   margin-left: 15px;

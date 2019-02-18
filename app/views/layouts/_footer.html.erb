@@ -1,11 +1,16 @@
 <footer class="footer">
-  <small>
-    This page was created by a Flatiron student to help fellow learners and has not been endorsed by the Flatiron School.  
-  </small>
-  <nav>
+  <div class="row">
+  <nav class="col-md-10 offset-1">
     <ul>
-      <a>Home</a> |
-      <a>Credits</a>
+      <%= link_to "Code of Conduct", static_pages_code_of_conduct_path%> |
+      <%= link_to "About", static_pages_about_path%> |
+      <%= link_to "Acknoweldgements", static_pages_acknowledgements_path%>
     </ul>
   </nav>
+  </div>
+  <div id="bottom_row" class="row">
+  <small class="col-md-10 offset-1">
+    This page was created by a Flatiron student to help fellow learners and has not been endorsed by the Flatiron School.  
+  </small>
+  </div>
 </footer>
