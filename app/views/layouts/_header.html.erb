@@ -21,21 +21,11 @@
         </li>
       
       </ul>
-      <div id="big_nav_icons">
-       <a id="home_icon" class="fa fa-user-plus fa-lg"></a>
-       <a id="home_icon" class="fa fa-sign-in fa-lg"></a>
-      </div> 
-      <div id="small_nav_text">
-       <hr class="thin">
-       <div class=navbar-nav mr-auto>
-       <div class="nav-item">
-       <a id="home_icon" class="nav-link">Sign Up</a>
-       </div>
-       <div class="nav-item">
-       <a id="home_icon" class="nav-link">Sign In</a>
-       </div>
-      </div>
-      </div> 
+      <% if logged_in? %>
+            <%= render 'layouts/logged_in_icons' %>
+      <%else %>
+          <%= render 'layouts/not_logged_in_icons' %>
+      <% end %>
   </div>
 </nav>
 

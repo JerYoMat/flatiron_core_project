@@ -14,13 +14,29 @@
   .nav-link { 
     margin-bottom: -0.5em;
   }
-  #home_icon{padding-left: 1em;}
-  #big_nav_icons{ display:block}
+
+
+  #home_icon{padding-left: 1em;
+    color: white;
+    
+    &:hover {
+      color: #00b3e6;
+      text-decoration: none;
+ 
+    }}
+  #big_nav_icons{ display:block;}
   #small_nav_text{ display:none;}
+
+  /*Getting dropdown to display correctly */
+  #nav_dropdown_marker::after { /*kills caret*/
+    display:none;
+}
+  /*Dropdown links only work when using button - styling button */
+  
 
 }
 @media (max-width: 767px) {
-  #big_nav_icons{ display:none}
+  #big_nav_icons{ display:none;}
   #small_nav_text{ display:block;
   text-align: left;}
 }

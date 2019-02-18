@@ -1,0 +1,15 @@
+> 
+<div id="small_nav_text">
+      <hr class="thin">
+<div class=navbar-nav mr-auto>
+        <div class="nav-item">
+      <%= link_to "My Profile", user_path(current_user),  id: "home_icon", class: "nav-link" %>
+      </div>
+      <div class="nav-item">
+      <%= link_to "Edit Profile Info", edit_user_path(current_user),  id: "home_icon", class: "nav-link" %>
+      </div>
+      <div class="nav-item">
+      <%= link_to "Sign Out", logout_path,  id: "home_icon", class: "nav-link", method: :delete %>
+      </div>
+</div>
+</div>
