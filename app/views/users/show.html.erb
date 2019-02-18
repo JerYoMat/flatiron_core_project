@@ -9,4 +9,12 @@
       
     </section>
   </aside>
+  <div>
+   <% if @user.tips.any? %>
+      <h3>tips (<%= @user.tips.count %>)</h3>
+      <ol class="tips">
+        <%= render @tips %>
+      </ol>
+    <% end %>
+    </div>
 </div>
