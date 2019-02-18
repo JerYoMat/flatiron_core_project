@@ -4,8 +4,10 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+fixture_tip_one:
+  title: Modeling Users with Rails 
+  link: https://www.railstutorial.org/book/modeling_users
+  resource_type: Project Prep
+  time_requirement: \>2 hours 
+  other_info: this whole book is great for the rails project, however, each chapter can also be taken alone
+  user_id: 1
