@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_16_140825) do
+ActiveRecord::Schema.define(version: 2019_02_18_000052) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -31,6 +31,65 @@ ActiveRecord::Schema.define(version: 2019_02_16_140825) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "lesson_tips", force: :cascade do |t|
+    t.integer "lesson_id"
+    t.integer "tip_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_id"], name: "index_lesson_tips_on_lesson_id"
+    t.index ["tip_id"], name: "index_lesson_tips_on_tip_id"
+  end
+
+  create_table "lessons", force: :cascade do |t|
+    t.string "title"
+    t.integer "course_order"
+    t.string "content"
+    t.integer "topic_id"
+    t.integer "unit_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["topic_id"], name: "index_lessons_on_topic_id"
+    t.index ["unit_id"], name: "index_lessons_on_unit_id"
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.integer "score"
+    t.integer "user_id"
+    t.integer "tip_id"
+    t.text "score_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tip_id"], name: "index_ratings_on_tip_id"
+    t.index ["user_id"], name: "index_ratings_on_user_id"
+  end
+
+  create_table "tips", force: :cascade do |t|
+    t.string "title"
+    t.string "link"
+    t.string "resource_type"
+    t.string "time_requirement"
+    t.text "other_info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string "title"
+    t.integer "unit_id"
+    t.integer "course_order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["unit_id"], name: "index_topics_on_unit_id"
+  end
+
+  create_table "units", force: :cascade do |t|
+    t.string "title"
+    t.integer "course_order"
+    t.string "image_path"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
