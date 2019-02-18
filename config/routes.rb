@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'
   get 'static_pages/code_of_conduct', to: 'static_pages#code_of_conduct'
-  get 'static_pages/acknowledgements', to: 'static_pages#acknnowledgements'
+  get 'static_pages/acknowledgements', to: 'static_pages#acknowledgements'
   get 'static_pages/about', to: 'static_pages#about'
   resources :users
   resources :tips 

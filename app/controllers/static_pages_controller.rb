@@ -5,6 +5,9 @@ class StaticPagesController < ApplicationController
   def code_of_conduct
   end
 
-  def credits
+  def acknowledgements
   end
+
+  def about 
+  end 
 end
