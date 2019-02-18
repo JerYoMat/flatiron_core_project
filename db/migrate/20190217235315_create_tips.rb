@@ -6,6 +6,7 @@ class CreateTips < ActiveRecord::Migration[5.2]
       t.string :resource_type
       t.string :time_requirement 
       t.text :other_info 
+      t.belongs_to :user 
       t.timestamps
     end
   end

@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2019_02_18_000052) do
     t.string "title"
     t.integer "course_order"
     t.string "content"
+    t.string "lesson_type"
     t.integer "topic_id"
     t.integer "unit_id"
     t.datetime "created_at", null: false
@@ -71,8 +72,10 @@ ActiveRecord::Schema.define(version: 2019_02_18_000052) do
     t.string "resource_type"
     t.string "time_requirement"
     t.text "other_info"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tips_on_user_id"
   end
 
   create_table "topics", force: :cascade do |t|
