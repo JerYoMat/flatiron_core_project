@@ -4,25 +4,20 @@ Mockups available at **https://balsamiq.cloud/sf9962g/pcazquv**
 Realtime Board link **https://realtimeboard.com/app/board/o9J_kyQv-Zs=/**
 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1.)Must have a Rails Backend and new requirements implemented through JavaScript.
+-Login form for large screens 
 
-Things you may want to cover:
+Must translate the JSON responses into Javascript Model Objects using either ES6 class or constructor syntax. 
 
-* Ruby version
+2.) Must render at least one index page (index resource - 'list of things') via JavaScript and an Active Model Serialization JSON Backend.
+Units slider on hover large screens only
 
-* System dependencies
+Must render at least one show page (show resource - 'one specific thing') via JavaScript and an Active Model Serialization JSON Backend.
+Show Tip in Unit  Show 
 
-* Configuration
 
-* Database creation
+Your Rails application must reveal at least one `has-many` relationship through JSON that is then rendered to the page.
+Must use your Rails application to render a form for creating a resource that is submitted dynamically through JavaScript.
+New Tip on user show 
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+At least one of the JS Model Objects must have a method on the prototype.

@@ -68,7 +68,7 @@ intro_js.image_path ='js.png'
 intro_js.save 
 
 advanced_js = Unit.find(11)
-advanced_js.image_path ='js.png'
+advanced_js.image_path ='js_2.jpg'
 advanced_js.save 
 
 rails_js = Unit.find(12)
