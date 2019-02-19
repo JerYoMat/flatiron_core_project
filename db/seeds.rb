@@ -1,6 +1,7 @@
 require 'csv'
 require 'pry'
 
+
 course = CSV.read('course_curriculum.csv')
 course = course.each_with_index do |line, index|
   line[2] = index +1
@@ -24,3 +25,8 @@ course.each do |line|
     end  
 end 
 
+
+#Adding Unit Images 
+Intro_to_Ruby = Unit.find(1)
+Intro_to_Ruby.image_path ='Intro_to_Ruby_Development.png'
+Intro_to_Ruby.save
