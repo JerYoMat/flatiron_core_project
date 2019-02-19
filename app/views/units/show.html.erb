@@ -1,0 +1,8 @@
+<h1><%=@unit.title%></h1>
+<ol>
+<% @lessons.each do |l|%>
+  <li>
+    <%= link_to l.title, lesson_path(l) %>  <%= "- " + l.tips.count if l.tips.any?%>
+  </li>   
+<% end %>
+</ol>
