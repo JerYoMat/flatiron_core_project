@@ -214,3 +214,29 @@ aside {
     }
   }
 }
+
+/* Cards*/
+div{
+ 
+div{
+
+.card{
+  width: 14rem; 
+  height: 18rem;
+  display: inline-block;
+  vertical-align: top;
+  margin: 1rem;
+  img{
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    height: 12rem;
+    width: 12rem;
+  }
+  h5{
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+  }
+}
+}}

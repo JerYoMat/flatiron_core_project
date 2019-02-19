@@ -1,9 +1,11 @@
 class UnitsController < ApplicationController
     def index 
-       num = rand(1..14)
-        @unit = Unit.find(num)
+      @units = Unit.all 
     end 
 
     def show 
+        @unit = Unit.find(params[:id])
+        @topics = @unit.topics
+        @lessons = @unit.lessons
     end 
 end

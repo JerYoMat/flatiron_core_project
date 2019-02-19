@@ -1,8 +1,9 @@
-<div class="card" style="width: 18rem;">
-  <% path = asset_path(@unit.image_path) %>
-  <%= image_tag("#{path}", :alt => "rss feed") %>
+<a id="unit_card" href="<%=unit_path(unit)%>">
+<div class="card">
+  <% path = unit.image_path %>
+  <%= image_tag("#{path}", :alt => "#{unit.title}", size: 200) %>
   <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <h5 class="card-title"><%= unit.title%></h5>
   </div>
 </div>
+</a>
