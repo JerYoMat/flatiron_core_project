@@ -1,6 +1,7 @@
 class UnitsController < ApplicationController
     def index 
-        @unit = Unit.find(1)
+       num = rand(1..14)
+        @unit = Unit.find(num)
     end 
 
     def show 
