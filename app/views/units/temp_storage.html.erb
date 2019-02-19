@@ -1,0 +1,42 @@
+<%= image_tag("#{@unit.image_path}", :alt => "#{@unit.title}", size: 240) %>
+<h1><%=@unit.title%></h1>
+
+
+<!--Accordion wrapper-->
+<div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+<% @topics.each do |t|%>
+  <!-- Accordion card -->
+  <div class="card">
+
+    <!-- Card header -->
+    <div class="card-header" role="tab" id=<%="heading_#{t.title}#{t.id}"%>>
+      <a data-toggle="collapse" data-parent="#accordionEx" href=<%="\#collapse_#{t.title}#{t.id}"%>" aria-expanded="true"
+        aria-controls=<%="collapse_#{t.title}#{t.id}"%>>
+        <h5 class="mb-0">
+          <%=t.title%> <i class="fa fa-angle-down rotate-icon"></i>
+        </h5>
+      </a>
+    </div>
+
+    <!-- Card body -->
+    <div id=<%="collapse_#{t.title}#{t.id}"%> class="collapse show" role="tabpanel" aria-labelledby=<%="heading_#{t.title}#{t.id}"%> data-parent="#accordionEx">
+      <div class="card-body">
+        <ol>
+            <%t.lessons.each do |l|%>
+            <li>
+                <%= link_to l.title, lesson_path(l) %>  <%= "- " + l.tips.count if l.tips.any?%>
+            </li>   
+            <% end %>
+        </ol>
+      </div>
+    </div>
+
+  </div>
+  <!-- Accordion card -->
+ <%end %>
+  
+
+  
+
+</div>
+<!-- Accordion wrapper -->
