@@ -1,4 +1,4 @@
-unit,INTRO TO RUBY DEVELOPMENT
+unit,INTRO TO RUBY
 topic,Intro to Programming
 reading,Intro to Tic Tac Toe
 reading,MINSWAN- Yukihuro Matsumoto
@@ -333,7 +333,7 @@ video,CLI Data Gem Walkthrough: Creating a CLI Scraper Gem
 video,Common Anti-Patterns in CLI Data Gem
 video,Student Example 1: Refactoring CLI Gem
 video,Student Example 2: Refactoring CLI Gem
-unit,SQL (Structured Query Language)
+unit,SQL 
 topic,Topic Introduction
 reading,What is SQL
 topic,Getting Started

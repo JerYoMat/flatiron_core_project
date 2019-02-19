@@ -215,7 +215,10 @@ aside {
   }
 }
 
-/* Cards*/
+
+
+
+/* Unit Index*/
 div{
  
 div{
@@ -242,11 +245,25 @@ div{
 }}
 
 /*Carousel for Units*/
-.MultiCarousel { float: left; overflow: hidden; padding: 15px; width: 100%; position:relative; }
-    .MultiCarousel .MultiCarousel-inner { transition: 1s ease all; float: left; }
+.MultiCarousel { float: left; overflow: hidden; padding: 0.8rem; width: 100%; position:relative; }
+    .MultiCarousel .MultiCarousel-inner { 
+        transition: 1s ease all; float: left; }
         .MultiCarousel .MultiCarousel-inner .item { float: left;}
-        .MultiCarousel .MultiCarousel-inner .item > div { text-align: center; padding:10px; margin:10px; background:#f1f1f1; color:#666;}
-    .MultiCarousel .leftLst, .MultiCarousel .rightLst { position:absolute; border-radius:50%;top:calc(50% - 20px); }
+        .MultiCarousel .MultiCarousel-inner .item > a div { 
+          text-align: center;
+          padding:0.5rem; 
+          margin:0.5rem;
+          background:#f1f1f1;
+          color:#666;
+          height: 14rem;
+      
+          img {
+            background: white;
+            margin-right: auto;
+            margin-left: auto;    
+          }
+        }
+    .MultiCarousel .leftLst, .MultiCarousel .rightLst { position:absolute; border-radius:30%;top:calc(30% - 1rem); }
     .MultiCarousel .leftLst { left:0; }
     .MultiCarousel .rightLst { right:0; }
     

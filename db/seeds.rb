@@ -15,6 +15,18 @@ course.each do |line|
     name = line[1]
     order = line[2]
     if designator == "unit"
+        name.downcase!
+        name = name.split(' ') 
+        name = name.each do |n|
+          if n == "orms"
+            n="ORMs"
+          elsif n == "sql" || n == "css" || n == "html"
+            n.upcase!    
+          elsif n.length > 3 || n == "git" 
+            n.capitalize! 
+          end
+        end.join(' ')  
+        
         current_unit = Unit.create!(title: name, course_order: order)
         current_unit_id = current_unit.id 
     elsif designator == "topic"
