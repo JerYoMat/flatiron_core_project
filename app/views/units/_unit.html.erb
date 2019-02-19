@@ -1,5 +1,5 @@
-<a id="unit_card" href="<%=unit_path(unit)%>">
-<div class="card">
+<a href="<%=unit_path(unit)%>">
+<div id="unit_card" class="card">
   <% path = unit.image_path %>
   <%= image_tag("#{path}", :alt => "#{unit.title}", size: 200) %>
   <div class="card-body">
