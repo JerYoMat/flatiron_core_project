@@ -8,4 +8,9 @@ class UnitsController < ApplicationController
         @topics = @unit.topics
         @lessons = @unit.lessons
     end 
+
+    def slider_menu
+      @units = Unit.all 
+      render json: @units, status: 200
+    end 
 end
