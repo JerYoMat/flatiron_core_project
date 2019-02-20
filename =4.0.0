@@ -1,0 +1,8 @@
+learnHELP_deploy@ /home/jeremy/code/projects/learnHELP_deploy
+├── eslint@5.14.1  extraneous
+├── eslint-config-standard@12.0.0  extraneous
+├── eslint-plugin-import@2.16.0  extraneous
+├── eslint-plugin-node@8.0.1  extraneous
+├── eslint-plugin-promise@4.0.1  extraneous
+└── eslint-plugin-standard@4.0.0  extraneous
+
