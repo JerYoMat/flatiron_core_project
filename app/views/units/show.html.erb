@@ -12,7 +12,7 @@
 
 
   <div class="col-md-8">
-  <ul>
+  <ul class="place_for_tips">
   </ul>
   </div>
 </div>
@@ -21,17 +21,31 @@
    
     img{ 
         display: block;
+        margin-top: 5%;
         margin-right: auto;
         margin-left: auto;
         width: 30%;
-        max-width: 240px;
+        max-width: 150px;
     }
   
 </style>
 <script>
 function getTopicTips(topic) {
+  $('.place_for_tips').empty();
   var topicID = topic.getAttribute("data-identifier-type");
-  alert("The " + topic.innerHTML + " is " + topicID + ".");
+  link = '/topics/'+topicID+'/tips'
+  $.getJSON(link,'',processTips);
+  function processTips(data) {
+  // create variable with empty string
+  var infoHTML='';
+  //loop through each object in the JSON data
+  $.each(data,function(tips, tip) {
+  infoHTML+='<li>Title: ' + tip.title + '</li>';
+  
+  }); // end of each()
+  // add finished HTML to page
+  $('.place_for_tips').append(infoHTML);
+  }
 }
 </script>
 
