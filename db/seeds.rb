@@ -94,3 +94,38 @@ react.save
 redux = Unit.find(14)
 redux.image_path ='redux.png'
 redux.save 
+
+#Create some fake tips
+i = 1
+50.times do 
+  title = Faker::Lorem.sentence
+  link =  Faker::Internet.url
+  resource_types =["Explanation", "Code Along", "Example/Qick Fix", "Reference", "Other"] 
+  resource_type=resource_types[rand(0..4)]
+  other_info = Faker::Lorem.paragraph
+  user_id = rand(1..3)
+  time_requirements = ["<30 min","<1 hr","<2 hrs", ">2hrs"]
+  time_requirement = time_requirements[rand(0..3)]
+
+  Tip.create!(id:i, title: title, link: link, resource_type: resource_type, other_info: other_info, user_id: user_id, time_requirement: time_requirement)
+  i+=1
+end 
+
+#Fake TopicTips 
+i = 1 
+50.times do 
+  topic = Topic.find(i)
+  
+  tip = Tip.find(i)
+  TopicTip.create!(topic_id: topic.id, tip_id: tip.id)
+  i += 1
+end 
+
+i = 1
+50.times do 
+  topic = Topic.find(rand(1..50))
+  tip = Tip.find(i)
+  TopicTip.create!(topic_id: topic.id, tip_id: tip.id)
+  i += 1
+end 
+
