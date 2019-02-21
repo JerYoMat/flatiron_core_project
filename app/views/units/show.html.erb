@@ -1,3 +1,37 @@
-<%= image_tag("#{@unit.image_path}", :alt => "#{@unit.title}", size: 240, id:"unit_image") %>
+
+<%= image_tag("#{@unit.image_path}", :alt => "#{@unit.title}") %><br>
 <h1><%=@unit.title%></h1>
+<div class="row">
+  <div class="col-md-4">
+  <ul class="list-group">
+  <%@unit.topics.each do |topic|%>
+    <li onclick="getTopicTips(this)" class="list-group-item" data-identifier-type="<%=topic.id%>"><%=topic.title%></li>
+  <%end %>
+  </ul>
+  </div>
+
+
+  <div class="col-md-8">
+  <ul>
+  </ul>
+  </div>
+</div>
+
+<style>
+   
+    img{ 
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        width: 30%;
+        max-width: 240px;
+    }
+  
+</style>
+<script>
+function getTopicTips(topic) {
+  var topicID = topic.getAttribute("data-identifier-type");
+  alert("The " + topic.innerHTML + " is " + topicID + ".");
+}
+</script>
 
