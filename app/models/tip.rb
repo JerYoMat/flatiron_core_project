@@ -6,6 +6,6 @@ class Tip < ApplicationRecord
     validates :resource_type, presence: true
     has_many :ratings 
     belongs_to :user 
-    has_many :lesson_tips 
-    has_many :lessons, through: :lesson_tips
+    has_many :topic_tips 
+    has_many :topics, through: :topic_tips
 end
