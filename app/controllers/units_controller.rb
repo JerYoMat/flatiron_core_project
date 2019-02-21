@@ -5,8 +5,6 @@ class UnitsController < ApplicationController
 
     def show 
         @unit = Unit.find(params[:id])
-        @topics = @unit.topics
-        @lessons = @unit.lessons
     end 
 
     def slider_menu
