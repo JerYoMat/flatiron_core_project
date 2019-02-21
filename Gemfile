@@ -24,6 +24,7 @@ gem 'active_model_serializers'
 gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'dotenv-rails'
+gem 'faker'
 
 gem "aws-sdk-s3", require: false
 
