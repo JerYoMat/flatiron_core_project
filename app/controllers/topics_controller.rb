@@ -3,5 +3,5 @@ class TopicsController < ApplicationController
         @topic = Topic.find(params[:id])
         @tips = @topic.tips 
         render json: @tips
-      end 
+    end
 end

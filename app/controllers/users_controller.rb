@@ -1,11 +1,14 @@
 require 'pry'
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
   # GET /users
   # GET /users.json
   def index
+    if logged_in?
     @users = User.all
+    else 
+      redirect_to login_path
+    end 
   end
 
   # GET /users/1
