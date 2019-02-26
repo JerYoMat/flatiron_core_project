@@ -151,9 +151,6 @@ textarea {
 
   /* typography */
 
-h1, h2, h3, h4, h5, h6 {
-  line-height: 1;
-}
 
 h1 {
   font-size: 3em;
@@ -225,7 +222,7 @@ div{
 
 #unit_card{
   width: 14rem; 
-  height: 18rem;
+  height: 16rem;
   display: inline-block;
   vertical-align: top;
   margin: 1rem;
@@ -255,10 +252,15 @@ div{
           margin:0.5rem;
           background:#f1f1f1;
           color:#666;
-          height: 14rem;
-      
+          height: 8rem;
+          p {
+            padding: 0;
+            margin:0;
+            height: 40%;
+          }
           img {
-            background: white;
+            height:40%;
+            background: transparent;
             margin-right: auto;
             margin-left: auto;    
           }
