@@ -17,4 +17,12 @@ module SessionsHelper
       session.delete(:user_id)
       @current_user = nil
     end
+
+    def owning_user?(test_object)
+      if current_user == test_object.user 
+        true 
+      else 
+        false 
+      end 
+    end 
 end
