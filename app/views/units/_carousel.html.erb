@@ -7,9 +7,9 @@
                     <a href="<%=unit_path(unit)%>">
                         <div class="card">
                         <% path = unit.image_path %>
-                        <%= image_tag("#{path}", :alt => "#{unit.title}", size: 120) %>
+                        <%= image_tag("#{path}", :alt => "#{unit.title}") %>
                         <div class="card-body">
-                            <p class="card-title"><%= unit.title%></p>
+                            <p class="card-text"><%= unit.title%></p>
                         </div>
                         </div>
                     </a>
