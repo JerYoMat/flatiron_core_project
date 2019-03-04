@@ -19,6 +19,7 @@ class TipsController < ApplicationController
 
   # GET /tips/1/edit
   def edit
+    redirect_to root_path unless owner_of?(@tip)
   end
 
   # POST /tips
@@ -71,4 +72,13 @@ class TipsController < ApplicationController
     def tip_params
       params.fetch(:tip, {}).permit(:title, :link, :resource_type, :time_requirement, :other_info, :user_id)
     end
+
+  def owner_of?(test_object)
+    if test_object.user == current_user 
+      true 
+    else 
+      false 
+    end 
+  end 
 end
+
