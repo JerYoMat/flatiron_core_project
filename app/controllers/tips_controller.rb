@@ -19,7 +19,7 @@ class TipsController < ApplicationController
 
   # GET /tips/1/edit
   def edit
-    redirect_to root_path unless owner_of?(@tip)
+    send_to_root_unless_owning_user(@tip) 
   end
 
   # POST /tips
@@ -75,7 +75,10 @@ class TipsController < ApplicationController
 
   def owner_of?(test_object)
     test_object.user == current_user ? true : false  
-      
+  end 
+
+  def send_to_root_unless_owning_user(test_object)
+    redirect_to root_path unless owner_of?(test_object)
   end 
 end
 
