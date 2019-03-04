@@ -7,7 +7,7 @@ class TipsController < ApplicationController
     @tips = Tip.all
   end
 
-  # GET /tips/1
+  # GET /tips/1qqqq
   # GET /tips/1.json
   def show
   end
@@ -74,11 +74,8 @@ class TipsController < ApplicationController
     end
 
   def owner_of?(test_object)
-    if test_object.user == current_user 
-      true 
-    else 
-      false 
-    end 
+    test_object.user == current_user ? true : false  
+      
   end 
 end
 
