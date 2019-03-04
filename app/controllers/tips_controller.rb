@@ -14,7 +14,11 @@ class TipsController < ApplicationController
 
   # GET /tips/new
   def new
-    @tip = Tip.new
+    if logged_in?
+      @tip = Tip.new
+    else 
+      redirect_to login_path 
+    end 
   end
 
   # GET /tips/1/edit
@@ -25,22 +29,27 @@ class TipsController < ApplicationController
   # POST /tips
   # POST /tips.json
   def create
-    @tip = Tip.new(tip_params)
+    if logged_in?
+      @tip = Tip.new(tip_params)
 
-    respond_to do |format|
-      if @tip.save
-        format.html { redirect_to @tip, notice: 'Tip was successfully created.' }
-        format.json { render :show, status: :created, location: @tip }
-      else
-        format.html { render :new }
-        format.json { render json: @tip.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @tip.save
+          format.html { redirect_to @tip, notice: 'Tip was successfully created.' }
+          format.json { render :show, status: :created, location: @tip }
+        else
+          format.html { render :new }
+          format.json { render json: @tip.errors, status: :unprocessable_entity }
+        end
       end
-    end
+    else  
+      redirect_to login_path
+    end 
   end
 
   # PATCH/PUT /tips/1
   # PATCH/PUT /tips/1.json
   def update
+    send_to_root_unless_owning_user(@tip)
     respond_to do |format|
       if @tip.update(tip_params)
         format.html { redirect_to @tip, notice: 'Tip was successfully updated.' }
@@ -55,6 +64,7 @@ class TipsController < ApplicationController
   # DELETE /tips/1
   # DELETE /tips/1.json
   def destroy
+    send_to_root_unless_owning_user(@tip)
     @tip.destroy
     respond_to do |format|
       format.html { redirect_to tips_url, notice: 'Tip was successfully destroyed.' }

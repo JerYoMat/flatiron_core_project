@@ -1,18 +1,18 @@
 require 'pry'
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  # GET /users
-  # GET /users.json
+
+  before_action :owning_user_or_out, only: [:edit, :update, :destroy]
+
   def index
     if logged_in?
-    @users = User.all
+      @users = User.all
     else 
       redirect_to login_path
     end 
   end
 
-  # GET /users/1
-  # GET /users/1.json
+
   def show
     @tips = @user.tips
   end
@@ -22,8 +22,8 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  # GET /users/1/edit
   def edit
+    
   end
 
   # POST /users
@@ -72,6 +72,10 @@ class UsersController < ApplicationController
     def set_user
       @user = User.find(params[:id])
     end
+
+    def owning_user_or_out 
+       redirect_to root_path unles @user == current_user
+    end 
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
