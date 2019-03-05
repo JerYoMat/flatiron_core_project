@@ -21,3 +21,34 @@ Must use your Rails application to render a form for creating a resource that is
 New Tip on user show 
 
 At least one of the JS Model Objects must have a method on the prototype.
+
+
+From Dalia Sawaya to Everyone:  01:20 PM
+function Song(songJson) {
+  this.userId = songJson.user_id
+  this.id = songJson.id
+  this.name = songJson.name
+  this.artist = songJson.artist
+  this.songVibes = songJson.song_vibes
+  this.vibes = songJson.vibes
+}
+Song.prototype.formatSong = function() {
+  return "<li>" + "<a href=\"/users/" + this.userId + "/songs/" + this.id + "\">" + this.name + "</a>" + " - " + this.artist + "</li>"
+}
+function listSongs () {
+  $.getJSON("/songs", function(songs){
+    $.each(songs, function(index, song) {
+      var the_song = new Song(song)
+      $("#song_list").append(the_song.formatSong())
+    })
+  })
+}
+class SongSerializer < ActiveModel::Serializer
+  attributes :id, :name, :artist, :user_id, :vibes, :song_vibes
+
+  has_many :song_vibes
+  has_many :vibes, through: :song_vibes
+
+  belongs_to :user
+end
+https://www.youtube.com/embed/b93S2_Hc8z8
