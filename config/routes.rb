@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'static_pages/acknowledgements', to: 'static_pages#acknowledgements'
   get 'static_pages/about', to: 'static_pages#about'
   get 'topics/:id/tips', to: 'topics#topic_tips'
+  get 'units/:id/topics', to: 'topics#index'
   resources :users
   resources :tips 
   resources :units, only: [:index, :show]

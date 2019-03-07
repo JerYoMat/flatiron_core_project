@@ -4,4 +4,10 @@ class TopicsController < ApplicationController
         @tips = @topic.tips 
         render json: @tips
     end
+
+    def index 
+      @unit = Unit.find(params[:id])
+      @topics = @unit.topics 
+      render json: @topics
+    end 
 end
