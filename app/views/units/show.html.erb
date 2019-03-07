@@ -24,7 +24,7 @@ class Topic {
     this.courseOrder = courseOrder;
   }
   addBull(instance){
-  return `<li>${instance.title}</li>`
+  return `<li id="topic_${instance.id}" class="list-group-item">${instance.title}</li>`
   }
 }
 
@@ -33,7 +33,8 @@ const topicList = [];
 data.forEach((item, index) => {
   const topic = new Topic(item.id, item.title, item.courseOrder)
   const bullet = topic.addBull(topic);
-  $("#topics_container").append(bullet)
+  $("#topics_container").append(bullet);
+   
 });
 
 }
