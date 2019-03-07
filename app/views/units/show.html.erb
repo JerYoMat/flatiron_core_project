@@ -1,12 +1,9 @@
 
 <%= image_tag("#{@unit.image_path}", :alt => "#{@unit.title}") %><br>
-<h1><%=@unit.title%></h1>
+<h1 data-unit_id="<%=@unit.id%>"><%=@unit.title%></h1>
 <div class="row">
   <div class="col-md-4">
-  <ul class="list-group">
-  <%@unit.topics.each do |topic|%>
-    <li onclick="getTopicTips(this)" class="list-group-item" data-identifier-type="<%=topic.id%>"><%=topic.title%></li>
-  <%end %>
+  <ul id="topics_container" class="list-group">
   </ul>
   </div>
 
@@ -20,33 +17,33 @@
 
 
 <script>
-function getTopicTips(topic) {
-  $("li").removeClass('active')
-  $(topic).addClass('active')
-  $('.place_for_tips').empty();
-  var topicID = topic.getAttribute("data-identifier-type");
-  link = '/topics/'+topicID+'/tips'
-  $.getJSON(link,'',processTips);
-  
-}
-function processTips(data) {
-  // create variable with empty string
-  var infoHTML="";
-  //loop through each object in the JSON data
-  $.each(data,function(tips, tip) {
-  
-  infoHTML+="<div id='topic-card' class='card'><div class='card-body'>"
-  infoHTML+="<h5 class='card-title'>"+tip.title +"</h5>"
-  infoHTML+="<a class='card-text'>"+tip.link +"</a>"
-  infoHTML+="<p class='card-text'>"+tip.other_info +"</p>"
-  infoHTML+="<span class='resource-type'>"+tip.resource_type +"</span>"
-  infoHTML+="<span class='time-requirement'>"+tip.time_requirement +"</span>"
-  infoHTML+="<span class='average-rating'>"+tip.average_rating +"</span></div></div>";
-  
-  }); // end of each()
-  // add finished HTML to page
-  $('.place_for_tips').append(infoHTML);
+class Topic {
+  constructor(id, title, courseOrder) {
+    this.id = id;
+    this.title = title;
+    this.courseOrder = courseOrder;
   }
+  addBull(instance){
+  return `<li>${instance.title}</li>`
+  }
+}
+
+function showTopics(data) {
+const topicList = [];
+data.forEach((item, index) => {
+  const topic = new Topic(item.id, item.title, item.courseOrder)
+  const bullet = topic.addBull(topic);
+  $("#topics_container").append(bullet)
+});
+
+}
+
+$(document).ready(function(){
+  let unitId = $("h1").attr("data-unit_id")
+  $.getJSON(`${unitId}/topics`,"", showTopics);
+  
+});
+
 </script>
 
 <style>
