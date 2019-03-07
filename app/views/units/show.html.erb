@@ -17,6 +17,43 @@
 
 
 <script>
+$(document).ready(function(){
+  let unitId = $("h1").attr("data-unit_id");
+  $.getJSON(`${unitId}/topics`,"", addTopicsForUnit);
+});
+
+
+function addTopicsForUnit(data) {
+  const topicList = [];
+  data.forEach((item, index) => {
+    const topic = new Topic(item.id, item.title, item.courseOrder);
+    const bullet = document.createElement('li');
+    bullet.className = "list-group-item"
+    bullet.innerHTML = topic.title
+    $("#topics_container").append(bullet);
+  });
+  addClickListener();
+}
+
+function addClickListener() {
+ $("li").each(function() {
+  $(this).click(setActiveClass.bind(this))
+  $(this).click(getTopicTips.bind(this))
+});
+}
+
+function setActiveClass() {
+    $("li").removeClass("active");
+    $(this).addClass("active");
+}
+
+function getTopicTips() {
+ console.log("nothin yet")
+}
+
+
+
+
 class Topic {
   constructor(id, title, courseOrder) {
     this.id = id;
@@ -25,34 +62,9 @@ class Topic {
   }
 }
 
-function addActivateToTopics() {
- $("li").each(function() {
-  $(this).click(function() {
-    $("li").removeClass("active");
-    $(this).addClass("active");
-  })
-});
-}
-
-function showTopics(data) {
-const topicList = [];
-data.forEach((item, index) => {
-  const topic = new Topic(item.id, item.title, item.courseOrder);
-  const bullet = document.createElement('li');
-  bullet.className = "list-group-item"
-  bullet.innerHTML = topic.title
-  $("#topics_container").append(bullet);
-});
-addActivateToTopics();
 
 
-}
 
-$(document).ready(function(){
-  let unitId = $("h1").attr("data-unit_id");
-  $.getJSON(`${unitId}/topics`,"", showTopics);
-  
-});
 
 </script>
 
