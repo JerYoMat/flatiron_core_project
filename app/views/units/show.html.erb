@@ -25,9 +25,13 @@ class Topic {
   }
 }
 
-function activateTitle() {
-  $("li").removeClass("active");
-  evt.target.addClass("active");
+function addActivateToTopics() {
+ $("li").each(function() {
+  $(this).click(function() {
+    $("li").removeClass("active");
+    $(this).addClass("active");
+  })
+});
 }
 
 function showTopics(data) {
@@ -39,17 +43,8 @@ data.forEach((item, index) => {
   bullet.innerHTML = topic.title
   $("#topics_container").append(bullet);
 });
+addActivateToTopics();
 
-let indTopic = $("li");
-for (var i = 0; i < indTopic.length; i++) {
-  indTopic[i].addEventListener("click", function() {
-    var current = document.getElementsByClassName("active");
-    if (current.length > 0) { 
-      current[0].className = current[0].className.replace(" active", "");
-    }
-    this.className += " active";
-  });
-}
 
 }
 
