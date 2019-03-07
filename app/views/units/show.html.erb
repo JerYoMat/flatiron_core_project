@@ -25,24 +25,24 @@ $(document).ready(function(){
 const topicList = [];
 function getTopicsAndTipsForUnit(data) {
   createTopicObjects(data)
-  addClickListener();
+  addClickListeners();
 }
 
 function createTopicObjects(jsonTopics) {
-  jsonTopics.forEach((item, index) => {
+  jsonTopics.forEach((item) => {
     const topic = new Topic(item.id, item.title, item.courseOrder, item.tips);
     topicList.push(topic);
     const bullet = document.createElement('li');
     bullet.className = "list-group-item"
     bullet.innerHTML = topic.title
     $("#topics_container").append(bullet);
+    topic.addTip()
   });
 }
 
-function addClickListener() {
+function addClickListeners() {
  $("li").each(function() {
   $(this).click(setActiveClass)
-  $(this).click(getTopicTips)
 });
 }
 
@@ -51,7 +51,7 @@ function setActiveClass() {
     $(this).addClass("active");
 }
 
-function getTopicTips() {
+function createTopicTips() {
  console.log("nothin yet")
 }
 
@@ -64,6 +64,9 @@ class Topic {
     this.title = title;
     this.courseOrder = courseOrder;
     this.tips = tips
+  }
+  addTip() {
+    console.log(this)  // TODO: still need to add the rest.  Checked that this is working
   }
 }
 
