@@ -1,5 +1,5 @@
-<button>prev</button>
-<button>next</button>
+<button id="prev">prev</button>
+<button id="next">next</button>
 <h1></h1>
 
 <br id="middle">
@@ -20,20 +20,23 @@
 
 
 <script>
+let unitId = Number(window.location.pathname.split("/units/")[1])
+let prevUnit = (unitId === 1 ? 14 : unitId - 1 );
+let nextUnit = (unitId === 14 ? 1 : unitId + 1);
+let topicList = [];
+
 $(document).ready(function(){
-  let unitId = window.location.pathname.split("/units/")[1]
   $.getJSON(window.location.pathname,"",addInUnitElements);
   $.getJSON(`${unitId}/topics`,"", createTopicsAndAddListeners);
 });
 
 function addInUnitElements(data) {
   const unit = new Unit(data.id, data.title, data.image_path)
-  
   $('h1').html(unit.title)
   $('h1').before(unit.setAndPlaceImage)
 }
 
-const topicList = [];
+
 function createTopicsAndAddListeners(data) {
   createTopicObjects(data)
   addClickListeners();
