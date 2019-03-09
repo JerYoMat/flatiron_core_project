@@ -47,8 +47,12 @@ function loadTips() {
   const topicId = this.getAttribute("data-topic");
   const selectedTopic = topicList.filter( t => t.id == topicId
   )[0]
-  const tips = selectedTopic.tips[0]
-   $(".place_for_tips").append(tips.formatTip); 
+  $(".place_for_tips").empty()
+  selectedTopic.tips.forEach((tip)=>{
+    $(".place_for_tips").append(tip.formatTip); 
+  })
+  
+   
 }
 
 function setActiveClass() {
@@ -97,6 +101,10 @@ class Tip {
     return `<div class='card'>
       <div class='card-body'>
         <h5 class='card-title'>${this.title}</h5>
+        <p>${this.link}</p>
+        <p>${this.resource_type}</p>
+        <p>${this.time_requirement}</p>
+        
       </div>
     </div>`
   }
