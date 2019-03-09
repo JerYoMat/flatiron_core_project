@@ -20,13 +20,12 @@
 
 
 <script>
-let unitId = Number(window.location.pathname.split("/units/")[1])
-let prevUnit = (unitId === 1 ? 14 : unitId - 1 );
-let nextUnit = (unitId === 14 ? 1 : unitId + 1);
+let unitId;
 let topicList = [];
 
 $(document).ready(function(){
-  $.getJSON(window.location.pathname,"",addInUnitElements);
+  unitId = Number(window.location.pathname.split("/units/")[1])
+  $.getJSON("","",addInUnitElements);
   $.getJSON(`${unitId}/topics`,"", createTopicsAndAddListeners);
 });
 
@@ -55,6 +54,9 @@ function addClickListeners() {
    $(this).click(setActiveClass);
    $(this).click(loadTips);
 });
+  $("#prev").click(renderPrevUnit)
+  $("#next").click(renderNextUnit)
+ 
 }
 
 function loadTips() {
