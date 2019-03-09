@@ -1,7 +1,9 @@
+<button>prev</button>
+<button>next</button>
+<h1></h1>
 
-<img src="/assets/git.png">
-<br>
-<h1 data-unit_id="<%=@unit.id%>"><%=@unit.title%></h1>
+<br id="middle">
+
 <div class="row">
   <div class="col-md-4">
   <ul id="topics_container" class="list-group">
@@ -19,12 +21,20 @@
 
 <script>
 $(document).ready(function(){
-  let unitId = $("h1").attr("data-unit_id");
-  $.getJSON(`${unitId}/topics`,"", getTopicsAndTipsForUnit);
+  let unitId = window.location.pathname.split("/units/")[1]
+  $.getJSON(window.location.pathname,"",addInUnitElements);
+  $.getJSON(`${unitId}/topics`,"", createTopicsAndAddListeners);
 });
 
+function addInUnitElements(data) {
+  const unit = new Unit(data.id, data.title, data.image_path)
+  
+  $('h1').html(unit.title)
+  $('h1').before(unit.setAndPlaceImage)
+}
+
 const topicList = [];
-function getTopicsAndTipsForUnit(data) {
+function createTopicsAndAddListeners(data) {
   createTopicObjects(data)
   addClickListeners();
 }
@@ -61,10 +71,20 @@ function setActiveClass() {
     $(this).addClass("active");
 }
 
-
+class Unit {
+  constructor(id, title, image) {
+    this.id = id;
+    this.title = title;
+    this.imageName = image;
+    this.setAndPlaceImage = this.setAndPlaceImage.bind(this);
+  }
+  setAndPlaceImage() {
+    return `<img src=/assets/${this.imageName}>`
+  }
+  
+}
 
 class Topic {
-  
   constructor(item) {
     this.id = item.id;
     this.title = item.title;
