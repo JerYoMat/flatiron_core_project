@@ -1,17 +1,36 @@
-<div id="pseudo-root">
-  
+<div id="pseudoRoot">
+  <h1></h1>
+
+  <br id="middle">
+
+  <div class="row">
+    <div class="col-md-4">
+    <ul id="topics_container" class="list-group">
+    </ul>
+    </div>
+
+
+    <div id="tip_holder" class="col-md-8 card">
+      <div class="place_for_tips">
+      </div>
+    </div>
+  </div>
 </div>
 
 
 <script>
 const startTemplate = () => {
   return `<h1></h1>
+
   <br id="middle">
+
   <div class="row">
     <div class="col-md-4">
     <ul id="topics_container" class="list-group">
     </ul>
     </div>
+
+
     <div id="tip_holder" class="col-md-8 card">
       <div class="place_for_tips">
       </div>
@@ -23,8 +42,10 @@ let unitId;
 let topicList = [];
 
 $(document).ready(function(){
-  $('#pseudo-root').append(startTemplate())
   
+  unitId = Number(window.location.pathname.split("/units/")[1])
+  $.getJSON("","",addInUnitElements);
+  $.getJSON(`${unitId}/topics`,"", createTopicsAndAddListeners);
 });
 
 function addInUnitElements(data) {
