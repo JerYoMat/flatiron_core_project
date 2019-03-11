@@ -1,11 +1,29 @@
-<div id="pseudo-root" data-used="no">
+<div id="pseudo-root" data-first="yes" data-current-unit="">
 </div>
 
 <script>
-const createUnitWithTopics = (data) => {
+const pseudoRoot = document.getElementById('pseudo-root')
+const currentUnitElement = pseudoRoot.getAttribute('data-current-unit')
+let unitId = (currentUnitElement === "" ? Number(window.location.pathname.split("/units/")[1]) : currentUnitElement) 
+
+const createUnit = (data) => {
   const unit = new Unit(data.id, data.title, data.image, data.topics)
   $('#pseudo-root').append(unit.startTemplate())
 }
+
+function getAndRenderUnitData(integer) {
+  $.getJSON(`${integer}/first_call`,'', createUnit)  
+}
+
+
+  getAndRenderUnitData(unitId)
+
+
+
+
+
+
+
   
 class Unit {
   constructor(id, title, image, topics) {
@@ -15,7 +33,8 @@ class Unit {
     this.imageName = image;
   }
   startTemplate() {
-    return (`<h1>${this.title}</h1>
+    return (`
+  <h1>${this.title}</h1>
   <br id="middle">
   <div class="row">
     <div class="col-md-4">
@@ -39,55 +58,6 @@ class Unit {
     return topicTitle.join('')
   }
 }
-
-
-class Topic {
-  constructor(item) {
-    this.id = item.id;
-    this.title = item.title;
-    this.courseOrder = item.course_order;
-    this.tips = this.convertTips(item)
-    this.formatTopic = this.formatTopic.bind(this)
-  }
-  formatTopic() {
-    const bullet = document.createElement('li');
-    bullet.className = "list-group-item"
-    bullet.innerHTML = this.title;
-    bullet.setAttribute('data-topic', this.id) 
-    return bullet;
-  }
-  convertTips(item) {
-    const tipArray = []
-    item.tips.forEach((ti) => {
-    const tip = new Tip(ti)
-    tipArray.push(tip)
-  })
-  return tipArray
-}
-
-}
-class Tip {
-  constructor(jsonTip) {
-    this.id = jsonTip.id;
-    this.title = jsonTip.title;
-    this.link = jsonTip.link;
-    this.resource_type = jsonTip.resource_type;
-    this.time_requirement = jsonTip.time_requirement;
-    this.formatTip = this.formatTip.bind(this);
-  }
-  formatTip(){
-    return `<div class='card'>
-      <div class='card-body'>
-        <h5 class='card-title'>${this.title}</h5>
-        <p>${this.link}</p>
-        <p>${this.resource_type}</p>
-        <p>${this.time_requirement}</p> 
-      </div>
-    </div>`
-  }
-}
-
-
 
 
 </script>
