@@ -7,16 +7,22 @@ const currentUnitElement = pseudoRoot.getAttribute('data-current-unit')
 let unitId = (currentUnitElement === "" ? Number(window.location.pathname.split("/units/")[1]) : currentUnitElement) 
 
 const createUnit = (data) => {
-  const unit = new Unit(data.id, data.title, data.image, data.topics)
-  $('#pseudo-root').append(unit.startTemplate())
+  const unit = new Unit(data.id, data.title, data.image_path, data.topics)
+  const unitTemplate = unit.startTemplate()
+ 
+  $('#pseudo-root').append(unitTemplate)
 }
 
 function getAndRenderUnitData(integer) {
   $.getJSON(`${integer}/first_call`,'', createUnit)  
 }
 
-
+function clearAndLoad() {
+  $(pseudoRoot).empty()
   getAndRenderUnitData(unitId)
+}
+
+clearAndLoad()
 
 
 
@@ -34,8 +40,9 @@ class Unit {
   }
   startTemplate() {
     return (`
+    <img src=/assets/${this.imageName}>
   <h1>${this.title}</h1>
-  <br id="middle">
+  <br>
   <div class="row">
     <div class="col-md-4">
     <ul id="topics_container" class="list-group">
