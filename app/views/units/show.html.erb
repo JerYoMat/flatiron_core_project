@@ -1,15 +1,26 @@
-<div id="pseudo-root">
-  
+<div id="pseudo-root" data-used="no">
 </div>
 
-
 <script>
-const startTemplate = () => {
-  return `<h1></h1>
+const createUnitWithTopics = (data) => {
+  const unit = new Unit(data.id, data.title, data.image, data.topics)
+  $('#pseudo-root').append(unit.startTemplate())
+}
+  
+class Unit {
+  constructor(id, title, image, topics) {
+    this.id = id;
+    this.title = title;
+    this.topics = topics;
+    this.imageName = image;
+  }
+  startTemplate() {
+    return (`<h1>${this.title}</h1>
   <br id="middle">
   <div class="row">
     <div class="col-md-4">
     <ul id="topics_container" class="list-group">
+      ${this.formatTopicTitles()}
     </ul>
     </div>
     <div id="tip_holder" class="col-md-8 card">
@@ -17,71 +28,18 @@ const startTemplate = () => {
       </div>
     </div>
   </div>`
-}
-
-let unitId;
-let topicList = [];
-
-$(document).ready(function(){
-  $('#pseudo-root').append(startTemplate())
-  
-});
-
-function addInUnitElements(data) {
-  const unit = new Unit(data.id, data.title, data.image_path)
-  $('h1').html(unit.title)
-  $('h1').before(unit.setAndPlaceImage)
-}
-
-
-function createTopicsAndAddListeners(data) {
-  createTopicObjects(data)
-  addClickListeners();
-}
-
-function createTopicObjects(jsonTopics) {
-  jsonTopics.forEach((item) => {
-    const topic = new Topic(item);
-    topicList.push(topic);
-    $("#topics_container").append(topic.formatTopic); 
-  });
-}
-
-function addClickListeners() {
- $("li").each(function() {
-   $(this).click(setActiveClass);
-   $(this).click(loadTips);
-});
-
-}
-
-function loadTips() {
-  const topicId = this.getAttribute("data-topic");
-  const selectedTopic = topicList.filter( t => t.id == topicId
-  )[0]
-  $(".place_for_tips").empty()
-  selectedTopic.tips.forEach((tip)=>{
-    $(".place_for_tips").append(tip.formatTip); 
-  })
-}
-
-function setActiveClass() {
-    $("li").removeClass("active");
-    $(this).addClass("active");
-}
-
-class Unit {
-  constructor(id, title, image) {
-    this.id = id;
-    this.title = title;
-    this.imageName = image;
-    this.setAndPlaceImage = this.setAndPlaceImage.bind(this);
+  )
+  }  
+  formatTopicTitles() {
+    const topicTitle = []
+    this.topics.forEach((top) => {
+      const title =`<li topic-id="${top.id}" class="list-group-item">${top.title}</li>` 
+      topicTitle.push(title)
+    });
+    return topicTitle.join('')
   }
-  setAndPlaceImage() {
-    return `<img src=/assets/${this.imageName}>`
-  }
-  
 }
+
 
 class Topic {
   constructor(item) {
