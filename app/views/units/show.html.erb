@@ -2,9 +2,9 @@
 </div>
 
 <script>
-const pseudoRoot = document.getElementById('pseudo-root')
+const pseudoRoot = document.getElementById('pseudo-root');
 let unitId = Number(window.location.pathname.split("/units/")[1]);
-
+let topicList = [];
 
 function getCreateAndRenderUnit() {
   //get data for the specified unit using the global variable unitId
@@ -30,6 +30,7 @@ function getAndCreateTopics() {
         const topic = new Topic(topicData);
         topicTitle = topic.formatTopicTitle();
         topicTitleString += topicTitle;
+        topicList.push(topic)
       });
       $("#topics_container").html(topicTitleString);
     })
@@ -39,8 +40,20 @@ function getAndCreateTopics() {
           $('li').removeClass("active");
           $(this).addClass('active');
           });
+          $(this).click(createAndLoadTips)
         });
     })
+}
+
+function createAndLoadTips() {
+  let topicId = this.getAttribute('topic-id')
+  const selectedTopic = topicList.filter( t => t.id == topicId
+  )[0];
+  $(".place_for_tips").empty()
+  selectedTopic.tips.forEach((tipData)=>{
+    tip = new Tip(tipData)
+    $(".place_for_tips").append(tip.formatTip()); 
+  })
 }
 
 
@@ -53,9 +66,6 @@ async function showUnitAndTopics() {
 }
 
 showUnitAndTopics();
-
-
-
 
 class Unit {
   constructor(arg) {
@@ -92,6 +102,27 @@ class Topic {
       return `<li topic-id="${this.id}" class="list-group-item">${this.title}</li>` 
   }
 }
+
+class Tip {
+  constructor(jsonTip) {
+    this.id = jsonTip.id;
+    this.title = jsonTip.title;
+    this.link = jsonTip.link;
+    this.resource_type = jsonTip.resource_type;
+    this.time_requirement = jsonTip.time_requirement;
+  }
+  formatTip(){
+    return `<div class='card'>
+      <div class='card-body'>
+        <h5 class='card-title'>${this.title}</h5>
+        <p>${this.link}</p>
+        <p>${this.resource_type}</p>
+        <p>${this.time_requirement}</p> 
+      </div>
+    </div>`
+  }
+}
+
 
 
 </script>
