@@ -3,42 +3,54 @@
 
 <script>
 const pseudoRoot = document.getElementById('pseudo-root')
-const currentUnitElement = pseudoRoot.getAttribute('data-current-unit')
-let unitId = (currentUnitElement === "" ? Number(window.location.pathname.split("/units/")[1]) : currentUnitElement) 
+const currentUnit = pseudoRoot.getAttribute('data-current-unit')
 
-const createUnit = (data) => {
-  const unit = new Unit(data.id, data.title, data.image_path, data.topics)
-  const unitTemplate = unit.startTemplate()
- 
-  $('#pseudo-root').append(unitTemplate)
+
+let unitId = (currentUnit === "" ? Number(window.location.pathname.split("/units/")[1]) : currentUnit) 
+
+
+function getCreateAndRenderUnit() {
+  //get data for the specified unit using the global variable unitId
+  fetch(`${unitId}/first_call`)
+    .then(function(response) { //convert response to JSON
+      return response.json();
+    })
+    .then(function(unitData){  //create unit object to satisfy show req
+      const unit = new Unit(unitData.id, unitData.title, unitData.image_path)
+      return unit
+    })  //use object prototype function to return template with data in it 
+    .then(function(unit) {
+      const baseTemplate = unit.baseTemplate()
+      $(pseudoRoot).html(baseTemplate) //append data to DOM
+    })
 }
 
-function getAndRenderUnitData(integer) {
-  $.getJSON(`${integer}/first_call`,'', createUnit)  
+function getAndCreateTopics() {
+  fetch(`${unitId}/topics`)
 }
-
-function clearAndLoad() {
-  $(pseudoRoot).empty()
-  getAndRenderUnitData(unitId)
-}
-
-clearAndLoad()
-
-
-
-
-
-
-
   
+
+
+getCreateAndRenderUnit()
+
+
+function addClickListeners(evt) {
+ $("li").each(function() {
+   $(this).click(()=>{
+     $('li').removeClass("active");
+     $(this).addClass('active');
+   });
+});
+}
+
+
 class Unit {
-  constructor(id, title, image, topics) {
+  constructor(id, title, image) {
     this.id = id;
     this.title = title;
-    this.topics = topics;
     this.imageName = image;
   }
-  startTemplate() {
+  baseTemplate() {
     return (`
     <img src=/assets/${this.imageName}>
   <h1>${this.title}</h1>
@@ -46,7 +58,6 @@ class Unit {
   <div class="row">
     <div class="col-md-4">
     <ul id="topics_container" class="list-group">
-      ${this.formatTopicTitles()}
     </ul>
     </div>
     <div id="tip_holder" class="col-md-8 card">
@@ -56,6 +67,16 @@ class Unit {
   </div>`
   )
   }  
+  
+}
+
+class Topic {
+  constructor(id, title, image, topics) {
+    this.id = id;
+    this.title = title;
+    this.topics = topics;
+    this.imageName = image;
+  }
   formatTopicTitles() {
     const topicTitle = []
     this.topics.forEach((top) => {
