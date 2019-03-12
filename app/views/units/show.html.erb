@@ -3,7 +3,6 @@
 
 <script>
 const pseudoRoot = document.getElementById('pseudo-root')
-const currentUnit = pseudoRoot.getAttribute('data-current-unit')
 let unitId = Number(window.location.pathname.split("/units/")[1]);
 
 
@@ -15,13 +14,9 @@ function getCreateAndRenderUnit() {
     })
     .then(function(unitData){  //create unit object to satisfy show req
       const unit = new Unit(unitData)
-      return unit
-    })  //use object prototype function to return template with data in it 
-    .then(function(unit) {
       const baseTemplate = unit.baseTemplate()
       $(pseudoRoot).html(baseTemplate) //append data to DOM
     })
-    .then(getAndCreateTopics)  // I don't like that I have two separate setups but then cheat by pushing this to the end of the line to ensure execution order.  
 }
 
 function getAndCreateTopics() {
@@ -49,8 +44,16 @@ function getAndCreateTopics() {
 }
 
 
+async function showUnitAndTopics() {
+ let promise = new Promise((resolve, reject) => {
+    resolve(getCreateAndRenderUnit())
+ });
+ await promise;
+ getAndCreateTopics()
+}
 
-getCreateAndRenderUnit()
+showUnitAndTopics();
+
 
 
 
@@ -63,21 +66,19 @@ class Unit {
   baseTemplate() {
     return (`
     <img src=/assets/${this.imageName}>
-  <h1>${this.title}</h1>
-  <br>
-  <div class="row">
-    <div class="col-md-4">
-    <ul id="topics_container" class="list-group">
-    </ul>
-    </div>
-    <div id="tip_holder" class="col-md-8 card">
-      <div class="place_for_tips">
+    <h1>${this.title}</h1><br>
+    <div class="row">
+      <div class="col-md-4">
+        <ul id="topics_container" class="list-group">
+        </ul>
       </div>
-    </div>
-  </div>`
+      <div id="tip_holder" class="col-md-8 card">
+        <div class="place_for_tips">
+        </div>
+      </div>
+    </div>`
   )
-  }  
-  
+  }   
 }
 
 class Topic {
