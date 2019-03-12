@@ -1,12 +1,10 @@
-<div id="pseudo-root" data-first="yes" data-current-unit="">
+<div id="pseudo-root">
 </div>
 
 <script>
 const pseudoRoot = document.getElementById('pseudo-root')
 const currentUnit = pseudoRoot.getAttribute('data-current-unit')
-
-
-let unitId = (currentUnit === "" ? Number(window.location.pathname.split("/units/")[1]) : currentUnit) 
+let unitId = Number(window.location.pathname.split("/units/")[1]);
 
 
 function getCreateAndRenderUnit() {
@@ -23,6 +21,7 @@ function getCreateAndRenderUnit() {
       const baseTemplate = unit.baseTemplate()
       $(pseudoRoot).html(baseTemplate) //append data to DOM
     })
+    .then(getAndCreateTopics)  // I don't like that I have two separate setups but then cheat by pushing this to the end of the line to ensure execution order.  
 }
 
 function getAndCreateTopics() {
@@ -31,27 +30,28 @@ function getAndCreateTopics() {
       return topicsData.json();
     })
     .then(function(topicsData) {
-      const topicsArray = []
-      topicsData.forEach((topic) => {}
-
-      )
-
+      let topicTitleString = ''
+      topicsData.forEach((topicData) => {
+        const topic = new Topic(topicData);
+        topicTitle = topic.formatTopicTitle();
+        topicTitleString += topicTitle;
+      });
+      $("#topics_container").html(topicTitleString);
+    })
+    .then(function() {
+        $("li").each(function() {
+          $(this).click(()=>{
+          $('li').removeClass("active");
+          $(this).addClass('active');
+          });
+        });
     })
 }
-  
+
 
 
 getCreateAndRenderUnit()
 
-
-function addClickListeners() {
- $("li").each(function() {
-   $(this).click(()=>{
-     $('li').removeClass("active");
-     $(this).addClass('active');
-   });
-});
-}
 
 
 class Unit {
@@ -81,19 +81,14 @@ class Unit {
 }
 
 class Topic {
-  constructor(id, title, image, topics) {
-    this.id = id;
-    this.title = title;
-    this.topics = topics;
-    this.imageName = image;
+  constructor(arg) {
+    this.id = arg.id;
+    this.title = arg.title;
+    this.courseOrder = arg.course_order;
+    this.tips = arg.tips
   }
-  formatTopicTitles() {
-    const topicTitle = []
-    this.topics.forEach((top) => {
-      const title =`<li topic-id="${top.id}" class="list-group-item">${top.title}</li>` 
-      topicTitle.push(title)
-    });
-    return topicTitle.join('')
+  formatTopicTitle() {
+      return `<li topic-id="${this.id}" class="list-group-item">${this.title}</li>` 
   }
 }
 
