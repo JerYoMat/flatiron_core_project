@@ -2,7 +2,7 @@
 </div>
 
 <script>
-const pseudoRoot = document.getElementById('pseudo-root');
+const pseudoRoot = $('#pseudo-root');
 let unitId = Number(window.location.pathname.split("/units/")[1]);
 let topicList = [];
 
@@ -13,11 +13,27 @@ function getCreateAndRenderUnit() {
       return unitData.json();
     })
     .then(function(unitData){  //create unit object to satisfy show req
-      const unit = new Unit(unitData)
-      const baseTemplate = unit.baseTemplate()
-      $(pseudoRoot).html(baseTemplate) //append data to DOM
+      const unit = new Unit(unitData);
+      const baseTemplate = unit.baseTemplate();
+      $(pseudoRoot).html(baseTemplate); //append data to DOM
+    })
+    .then(function() {
+      $('#next-unit').click(loadNextUnit);
+      $('#prev-unit').click(loadPrevUnit);
     })
 }
+      const loadNextUnit = () => {
+        unitId === 14 ? unitId=1 : unitId++
+        topicList = [];
+        showUnitAndTopics();
+      }
+
+      const loadPrevUnit = () => {
+        unitId === 1 ? unitId=14 : unitId--
+        topicList = [];
+        showUnitAndTopics();
+      }
+
 
 function getAndCreateTopics() {
   fetch(`${unitId}/topics`)
@@ -28,9 +44,9 @@ function getAndCreateTopics() {
       let topicTitleString = ''
       topicsData.forEach((topicData) => {
         const topic = new Topic(topicData);
+        topicList.push(topic)
         topicTitle = topic.formatTopicTitle();
         topicTitleString += topicTitle;
-        topicList.push(topic)
       });
       $("#topics_container").html(topicTitleString);
     })
@@ -40,7 +56,7 @@ function getAndCreateTopics() {
           $('li').removeClass("active");
           $(this).addClass('active');
           });
-          $(this).click(createAndLoadTips)
+          $(this).click(createAndLoadTips);
         });
     })
 }
@@ -60,12 +76,21 @@ function createAndLoadTips() {
 async function showUnitAndTopics() {
  let promise = new Promise((resolve, reject) => {
     resolve(getCreateAndRenderUnit())
+    reject(console.log('You shit the bed again!'))
  });
  await promise;
  getAndCreateTopics()
 }
 
-showUnitAndTopics();
+//What runs on page load
+$(document).ready(function() {
+  showUnitAndTopics();
+})
+
+ 
+
+//For each load of a new unit the topics array needs to be reset and the unitId needs to be set before the functions are called.
+
 
 class Unit {
   constructor(arg) {
@@ -75,18 +100,20 @@ class Unit {
   }
   baseTemplate() {
     return (`
-    <img src=/assets/${this.imageName}>
-    <h1>${this.title}</h1><br>
-    <div class="row">
-      <div class="col-md-4">
-        <ul id="topics_container" class="list-group">
-        </ul>
-      </div>
-      <div id="tip_holder" class="col-md-8 card">
-        <div class="place_for_tips">
+      <img src=/assets/${this.imageName}>
+      <h1>${this.title}</h1><br>
+      <button id='prev-unit'>Previous Unit</button>
+      <button id='next-unit'>Next Unit</button>
+      <div class="row">
+        <div class="col-md-4">
+          <ul id="topics_container" class="list-group">
+          </ul>
         </div>
-      </div>
-    </div>`
+        <div id="tip_holder" class="col-md-8 card">
+          <div class="place_for_tips">
+          </div>
+        </div>
+      </div>`
   )
   }   
 }
@@ -99,17 +126,17 @@ class Topic {
     this.tips = arg.tips
   }
   formatTopicTitle() {
-      return `<li topic-id="${this.id}" class="list-group-item">${this.title}</li>` 
+      return `<li topic-id="${this.id}" class="list-group-item">${this.title}<i class="fa fa-plus-circle fa-lg"></i></li>` 
   }
 }
 
 class Tip {
-  constructor(jsonTip) {
-    this.id = jsonTip.id;
-    this.title = jsonTip.title;
-    this.link = jsonTip.link;
-    this.resource_type = jsonTip.resource_type;
-    this.time_requirement = jsonTip.time_requirement;
+  constructor(arg) {
+    this.id = arg.id;
+    this.title = arg.title;
+    this.link = arg.link;
+    this.resource_type = arg.resource_type;
+    this.time_requirement = arg.time_requirement;
   }
   formatTip(){
     return `<div class='card'>
@@ -117,7 +144,7 @@ class Tip {
         <h5 class='card-title'>${this.title}</h5>
         <p>${this.link}</p>
         <p>${this.resource_type}</p>
-        <p>${this.time_requirement}</p> 
+        <p>${this.time_requirement}</p>
       </div>
     </div>`
   }
@@ -140,7 +167,10 @@ class Tip {
     div#tip_holder {border: 1px solid rgba(0, 0, 0, 0.125);
                     padding: 0;}
 
-    
+    i{
+      position: relative;
+      float: right;
+    }
 
   
 </style>
