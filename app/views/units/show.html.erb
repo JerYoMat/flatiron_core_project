@@ -11,32 +11,31 @@ let topicList = [];
 const getCreateAndRenderUnit = () => {
   //get data for the specified unit using the global variable unitId
   fetch(`${unitId}/first_call`)
-    .then((unitData) => (unitData.json())
-    )
-    .then((unitData) => {  //create unit object to satisfy show req
+    .then((unitData) => (unitData.json()))
+    .then((unitData) => { //create unit object to satisfy show req
       const unit = new Unit(unitData);
       const baseTemplate = unit.baseTemplate();
       $(pseudoRoot).html(baseTemplate); //append data to DOM
     })
-    .then(function() {
+    .then(() => {
       $('#next-unit').click(loadNextUnit);
       $('#prev-unit').click(loadPrevUnit);
     })
 }
 const loadNextUnit = () => {
-  unitId === 14 ? unitId=1 : unitId++
+  unitId === 14 ? unitId = 1 : unitId++
   topicList = [];
   showUnitAndTopics();
 };
 const loadPrevUnit = () => {
-  unitId === 1 ? unitId=14 : unitId--
+  unitId === 1 ? unitId = 14 : unitId--
   topicList = [];
   showUnitAndTopics();
 };
 const getAndCreateTopics = () => {
   fetch(`${unitId}/topics`)
     .then((topicsData) => (topicsData.json()))
-    .then(function(topicsData) {
+    .then((topicsData) => {
       let topicTitleString = ''
       topicsData.forEach((topicData) => {
         const topic = new Topic(topicData);
@@ -47,33 +46,32 @@ const getAndCreateTopics = () => {
       $("#topics_container").html(topicTitleString);
     })
     .then(() => {
-        $("li").each(() => {
-          $(this).click((evt)=>{
-            $('li').removeClass("active");
-            $(evt.target).addClass('active');
-          });
-          $(this).click(createAndLoadTips);
+      $("li").each(() => {
+        $(this).click((evt) => {
+          $('li').removeClass("active");
+          $(evt.target).addClass('active');
         });
+        $(this).click(createAndLoadTips);
+      });
     })
 }
 
 const createAndLoadTips = (evt) => {
   let topicId = evt.target.getAttribute('topic-id')
-  const selectedTopic = topicList.filter( t => t.id == topicId
-  )[0];
+  const selectedTopic = topicList.filter(t => t.id == topicId)[0];
   $(".place_for_tips").empty()
-  selectedTopic.tips.forEach((tipData)=>{
+  selectedTopic.tips.forEach((tipData) => {
     tip = new Tip(tipData)
-    $(".place_for_tips").append(tip.formatTip()); 
+    $(".place_for_tips").append(tip.formatTip());
   })
 }
 
 const showUnitAndTopics = async () => {
- let promise = new Promise((resolve) => {
+  let promise = new Promise((resolve) => {
     resolve(getCreateAndRenderUnit())
- });
- await promise;
- getAndCreateTopics();
+  });
+  await promise;
+  getAndCreateTopics();
 }
 
 const loginForm = () => (
@@ -112,6 +110,7 @@ const loginForm = () => (
     </div>
   </div>`
 )
+
 const renderLoginModal = async (evt) => {
   evt.preventDefault();
   const modalContainer = $('#modal-div');
@@ -126,8 +125,8 @@ const renderLoginModal = async (evt) => {
 const logInUser = async (evt) => {
   evt.preventDefault()
   let promise = new Promise((resolve) => {
-      const formData = $('form').serialize()
-      resolve($.post('/login', formData))
+    const formData = $('form').serialize()
+    resolve($.post('/login', formData))
   })
   let result = await promise
   window.location.pathname = `/units/${unitId}`
@@ -140,7 +139,7 @@ const removeModal = () => {
 
 
 //What runs on page load
-$(document).ready(function() {
+$(document).ready(() => {
   showUnitAndTopics();
   $('#sign_in').click(renderLoginModal);
 })
@@ -172,11 +171,10 @@ class Unit {
           <div class="place_for_tips">
           </div>
         </div>
-      </div>`
-  )
-  }   
+      </div>`)
+  }
 }
- 
+
 class Topic {
   constructor(arg) {
     this.id = arg.id;
@@ -185,7 +183,7 @@ class Topic {
     this.tips = arg.tips
   }
   formatTopicTitle() {
-      return `<li topic-id="${this.id}" class="list-group-item">${this.title}</li>` 
+    return `<li topic-id="${this.id}" class="list-group-item">${this.title}</li>`
   }
 }
 
@@ -197,7 +195,7 @@ class Tip {
     this.resource_type = arg.resource_type;
     this.time_requirement = arg.time_requirement;
   }
-  formatTip(){
+  formatTip() {
     return `<div class='card'>
       <div class='card-body'>
         <h5 class='card-title'>${this.title}</h5>
