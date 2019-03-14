@@ -169,10 +169,11 @@ const createAndLoadTips = (evt) => {
   const selectedTopic = filteredTopics[0];
   const tipContainer = $('.place_for_tips');
   tipContainer.empty();
+  if (undefined !== selectedTopic.tips) {
   selectedTopic.tips.forEach((tipData) => {
     tip = new Tip(tipData);
     tipContainer.append(tip.formatTip());
-  })
+  })}
 }
 
 
