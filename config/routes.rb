@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'static_pages#home'
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
+  post '/login_remote', to: 'sessions#remote_login'
   delete '/logout',  to: 'sessions#destroy'
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'
@@ -10,6 +11,8 @@ Rails.application.routes.draw do
   get 'static_pages/about', to: 'static_pages#about'
   get 'topics/:id/tips', to: 'topics#topic_tips'
   get 'units/:id/topics', to: 'topics#index'
+  get 'units/:id/first_call', to: 'units#setup_unit'
+  get 'units/count', to: 'units#unit_max_min'
   resources :users
   resources :tips 
   resources :units, only: [:index, :show]
