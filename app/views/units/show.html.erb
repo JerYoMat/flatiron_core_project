@@ -1,56 +1,19 @@
-<button id="myBtn">Open Modal</button>
-
-<!-- The Modal -->
-<div id="myModal" class="modal">
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div class="card">
-<article class="card-body">
-	<h4 class="card-title text-center mb-4 mt-1">Sign in</h4>
-	<hr>
-	<form>
-	<div class="form-group">
-	<div class="input-group">
-		<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-		 </div>
-		<input name="" class="form-control" placeholder="Email or login" type="email">
-	</div> <!-- input-group.// -->
-	</div> <!-- form-group// -->
-	<div class="form-group">
-	<div class="input-group">
-		<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-		 </div>
-	    <input class="form-control" placeholder="******" type="password">
-	</div> <!-- input-group.// -->
-	</div> <!-- form-group// -->
-	<div class="form-group">
-	<button type="submit" class="btn btn-primary btn-block"> Login  </button>
-	</div> <!-- form-group// -->
-	</form>
-</article>
-</div> <!-- card.// -->
-  </div>
-</div>
-
-<!--Modal Above-->
 <div id="pseudo-root">
 </div>
+<div id="modal-div"></div>
 
 <script>
 const pseudoRoot = $('#pseudo-root');
 let unitId = Number(window.location.pathname.split("/units/")[1]);
 let topicList = [];
 
-function getCreateAndRenderUnit() {
+
+const getCreateAndRenderUnit = () => {
   //get data for the specified unit using the global variable unitId
   fetch(`${unitId}/first_call`)
-    .then(function(unitData) { //convert response to JSON
-      return unitData.json();
-    })
-    .then(function(unitData){  //create unit object to satisfy show req
+    .then((unitData) => (unitData.json())
+    )
+    .then((unitData) => {  //create unit object to satisfy show req
       const unit = new Unit(unitData);
       const baseTemplate = unit.baseTemplate();
       $(pseudoRoot).html(baseTemplate); //append data to DOM
@@ -60,19 +23,16 @@ function getCreateAndRenderUnit() {
       $('#prev-unit').click(loadPrevUnit);
     })
 }
-      const loadNextUnit = () => {
-        unitId === 14 ? unitId=1 : unitId++
-        topicList = [];
-        showUnitAndTopics();
-      }
-
-      const loadPrevUnit = () => {
-        unitId === 1 ? unitId=14 : unitId--
-        topicList = [];
-        showUnitAndTopics();
-      }
-
-
+const loadNextUnit = () => {
+  unitId === 14 ? unitId=1 : unitId++
+  topicList = [];
+  showUnitAndTopics();
+};
+const loadPrevUnit = () => {
+  unitId === 1 ? unitId=14 : unitId--
+  topicList = [];
+  showUnitAndTopics();
+};
 function getAndCreateTopics() {
   fetch(`${unitId}/topics`)
     .then(function(topicsData){
@@ -96,15 +56,7 @@ function getAndCreateTopics() {
           });
           $(this).click(createAndLoadTips);
         });
-        $("i").click(loadTipForm)
     })
-}
-
-const loadTipForm = (evt) => {
-  let topicId = $(evt.target.parentNode).attr('topic-id')
-  const selectedTopic = topicList.filter( t => t.id == topicId
-  )[0];
-  
 }
 
 function createAndLoadTips() {
@@ -117,19 +69,81 @@ function createAndLoadTips() {
     $(".place_for_tips").append(tip.formatTip()); 
   })
 }
-
-
 async function showUnitAndTopics() {
- let promise = new Promise((resolve, reject) => {
+ let promise = new Promise((resolve) => {
     resolve(getCreateAndRenderUnit())
  });
  await promise;
- getAndCreateTopics()
+ getAndCreateTopics();
 }
+
+const loginForm = () => (
+  `<div id="login" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="card">
+        <article class="card-body">
+          <h4 class="card-title text-center mb-4 mt-1">Sign in</h4>
+          <p id="error-message"></p>
+          <hr>
+          <form>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                </div>
+                <input name="email" class="form-control" placeholder="Email or login" type="email">
+              </div> <!-- input-group.// -->
+            </div> <!-- form-group// -->
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                </div>
+                <input class="form-control" name="password" placeholder="******" type="password">
+              </div> <!-- input-group.// -->
+            </div> <!-- form-group// -->
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-block"> Login </button>
+            </div> <!-- form-group// -->
+          </form>
+        </article>
+      </div> <!-- card.// -->
+    </div>
+  </div>`
+)
+const renderLoginModal = async (evt) => {
+  evt.preventDefault();
+  const modalContainer = $('#modal-div');
+  let promise = new Promise((resolve) => {
+    resolve(modalContainer.append(loginForm))
+  });
+  let result = await promise //wait for html to be rendered and attach event listener
+  $('form').submit(logInUser)
+  $('.close').click(removeModal)
+}
+
+const logInUser = async (evt) => {
+  evt.preventDefault()
+  let promise = new Promise((resolve) => {
+      const formData = $('form').serialize()
+      resolve($.post('/login', formData))
+  })
+  let result = await promise
+  window.location.pathname = `/units/${unitId}`
+}
+
+const removeModal = () => {
+  $('#modal-div').empty()
+}
+
+
 
 //What runs on page load
 $(document).ready(function() {
   showUnitAndTopics();
+  $('#sign_in').click(renderLoginModal);
 })
 
 
@@ -163,7 +177,7 @@ class Unit {
   )
   }   
 }
-
+ 
 class Topic {
   constructor(arg) {
     this.id = arg.id;
@@ -195,35 +209,7 @@ class Tip {
     </div>`
   }
 }
-const loginForm = () => (`
 
-`)
-
-// Get the modal
-const modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-const btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-const span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
 </script>
 
 <style>
