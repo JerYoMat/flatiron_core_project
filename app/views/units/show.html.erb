@@ -1,57 +1,71 @@
-<div id="pseudo-root">
+<div id='pseudo-root'>
 </div>
-<div id="modal-div"></div>
+<div id='modal-div'></div>
 
 <script>
+/*TODO: Questions: next-unit, prev-unit, and topics-container are dependent upon the base template having been rendered.  What is the best-practice approach for assigning variables in such an instance assuming that successive calls will need to be made?
+TODO: When defining the form element what is the best way to define it once so that both the event listener and callback function have access without making it global?  Note form is rendered dynamically
+*/
 const pseudoRoot = $('#pseudo-root');
-let unitId = Number(window.location.pathname.split("/units/")[1]);
 let topicList = [];
+let unit;
+let unitId = Number(window.location.pathname.split('/units/')[1])
 
 
 const getCreateAndRenderUnit = () => {
-  //get data for the specified unit using the global variable unitId
-  fetch(`${unitId}/first_call`)
+  const unitUrl = `${unitId}/first_call`;
+  fetch(unitUrl)
     .then((unitData) => (unitData.json()))
-    .then((unitData) => { //create unit object to satisfy show req
-      const unit = new Unit(unitData);
+    .then((unitData) => {
+      unit = new Unit(unitData);
       const baseTemplate = unit.baseTemplate();
-      $(pseudoRoot).html(baseTemplate); //append data to DOM
+      pseudoRoot.html(baseTemplate); 
     })
     .then(() => {
-      $('#next-unit').click(loadNextUnit);
-      $('#prev-unit').click(loadPrevUnit);
+      const nextButton = $('#next-unit');
+      const prevButton = $('#prev-unit');
+      nextButton.click(loadNextUnit);
+      prevButton.click(loadPrevUnit);
     })
 }
+
+//TODO: Need to add max min call
 const loadNextUnit = () => {
-  unitId === 14 ? unitId = 1 : unitId++
+  unitId === 14 
+    ? unitId = 1 
+    : unitId++;
   topicList = [];
   showUnitAndTopics();
 };
 const loadPrevUnit = () => {
-  unitId === 1 ? unitId = 14 : unitId--
+  unitId === 1 
+    ? unitId = 14 
+    : unitId--;
   topicList = [];
   showUnitAndTopics();
 };
 const getAndCreateTopics = () => {
-  fetch(`${unitId}/topics`)
+  const topicsUrl = `${unitId}/topics`;
+  fetch(topicsUrl)
     .then((topicsData) => (topicsData.json()))
     .then((topicsData) => {
-      let topicTitleString = ''
+      let topicTitleString = '';
       topicsData.forEach((topicData) => {
         const topic = new Topic(topicData);
-        topicList.push(topic)
+        topicList.push(topic);
         topicTitle = topic.formatTopicTitle();
         topicTitleString += topicTitle;
       });
-      $("#topics_container").html(topicTitleString);
+      const topicsContainer = $('#topics_container');
+      topicsContainer.html(topicTitleString);
     })
     .then(() => {
-      $("li").each(() => {
-        $(this).click((evt) => {
-          $('li').removeClass("active");
+      $('li').each((index, val) => {
+        $(val).click((evt) => {
+          $('li').removeClass('active');
           $(evt.target).addClass('active');
         });
-        $(this).click(createAndLoadTips);
+        $(val).click(createAndLoadTips);
       });
     })
 }
@@ -59,41 +73,41 @@ const getAndCreateTopics = () => {
 
 const showUnitAndTopics = async () => {
   let promise = new Promise((resolve) => {
-    resolve(getCreateAndRenderUnit())
+    resolve(getCreateAndRenderUnit());
   });
   await promise;
   getAndCreateTopics();
 }
 
 const loginForm = () => (
-  `<div id="login" class="modal">
+  `<div id='login' class='modal'>
     <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div class="card">
-        <article class="card-body">
-          <h4 class="card-title text-center mb-4 mt-1">Sign in</h4>
-          <p id="error-message"></p>
+    <div class='modal-content'>
+      <span class='close'>&times;</span>
+      <div class='card'>
+        <article class='card-body'>
+          <h4 class='card-title text-center mb-4 mt-1'>Sign in</h4>
+          <p id='error-message'></p>
           <hr>
           <form>
-            <div class="form-group">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+            <div class='form-group'>
+              <div class='input-group'>
+                <div class='input-group-prepend'>
+                  <span class='input-group-text'> <i class='fa fa-user'></i> </span>
                 </div>
-                <input name="email" class="form-control" placeholder="Email or login" type="email">
+                <input name='email' class='form-control' placeholder='Email or login' type='email'>
               </div> <!-- input-group.// -->
             </div> <!-- form-group// -->
-            <div class="form-group">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+            <div class='form-group'>
+              <div class='input-group'>
+                <div class='input-group-prepend'>
+                  <span class='input-group-text'> <i class='fa fa-lock'></i> </span>
                 </div>
-                <input class="form-control" name="password" placeholder="******" type="password">
+                <input class='form-control' name='password' placeholder='******' type='password'>
               </div> <!-- input-group.// -->
             </div> <!-- form-group// -->
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-block"> Login </button>
+            <div class='form-group'>
+              <button type='submit' class='btn btn-primary btn-block'> Login </button>
             </div> <!-- form-group// -->
           </form>
         </article>
@@ -106,81 +120,87 @@ const renderLoginModal = async (evt) => {
   evt.preventDefault();
   const modalContainer = $('#modal-div');
   let promise = new Promise((resolve) => {
-    resolve(modalContainer.append(loginForm))
+    resolve(modalContainer.append(loginForm));
   });
-  let result = await promise //wait for html to be rendered and attach event listener
-  $('form').submit(logInUser)
-  $('.close').click(removeModal)
+  let result = await promise; 
+  const formElement = $('form');
+  const closeButton = $('.close');
+  formElement.submit(logInUser);
+  closeButton.click(removeModal);
 }
 
 const logInUser = async (evt) => {
-  evt.preventDefault()
+  evt.preventDefault();
   let promise = new Promise((resolve) => {
-    const formData = $('form').serialize()
-    resolve($.post('/login_remote', formData))
+    const formElement = $('form');
+    const formData = formElement.serialize();
+    formSubmitUrl = '/login_remote';
+    resolve($.post(formSubmitUrl, formData));
   })
-  let result = await promise
+  let result = await promise;
   if (result.id) {
-   window.location.pathname = `/units/${unitId}`
+    const currentPath = `/units/${unitId}`;
+    window.location.pathname = currentPath;
   } else {
-    const errorMessage = $('#error-message');
-    errorMessage.text('invalid email password combination');
-    errorMessage.addClass('alert alert-danger')
+    const errorMessageElement = $('#error-message');
+    const text = 'invalid email password combination';
+    errorMessageElement.text(text);
+    errorMessageElement.addClass('alert alert-danger');
   }
   
 }
 
 const removeModal = () => {
-  $('#modal-div').empty()
+  const modalDiv = $('#modal-div');
+  modalDiv.empty();
 }
 
 
 
-//What runs on page load
 $(document).ready(() => {
   showUnitAndTopics();
   $('#sign_in').click(renderLoginModal);
-})
+});
 
 
 const createAndLoadTips = (evt) => {
-  let topicId = evt.target.getAttribute('topic-id')
-  const selectedTopic = topicList.filter(t => t.id == topicId)[0];
-  $(".place_for_tips").empty()
+  let topicId = evt.target.getAttribute('topic-id');
+  const filteredTopics = topicList.filter(t => t.id == topicId);
+  const selectedTopic = filteredTopics[0];
+  const tipContainer = $('.place_for_tips');
+  tipContainer.empty();
   selectedTopic.tips.forEach((tipData) => {
-    tip = new Tip(tipData)
-    $(".place_for_tips").append(tip.formatTip());
+    tip = new Tip(tipData);
+    tipContainer.append(tip.formatTip());
   })
 }
 
 
-
-
-
+//TODO: Change arg object to individual items
 class Unit {
   constructor(arg) {
     this.id = arg.id;
     this.title = arg.title;
     this.imageName = arg.image_path;
-  }
+  };
   baseTemplate() {
     return (`
       <img src=/assets/${this.imageName}>
       <h1>${this.title}</h1><br>
       <button id='prev-unit'>Previous Unit</button>
       <button id='next-unit'>Next Unit</button>
-      <div class="row">
-        <div class="col-md-4">
-          <ul id="topics_container" class="list-group">
+      <div class='row'>
+        <div class='col-md-4'>
+          <ul id='topics_container' class='list-group'>
           </ul>
         </div>
-        <div id="tip_holder" class="col-md-8 card">
-          <div class="place_for_tips">
+        <div id='tip_holder' class='col-md-8 card'>
+          <div class='place_for_tips'>
           </div>
         </div>
       </div>`)
-  }
-}
+  };
+};
 
 class Topic {
   constructor(arg) {
@@ -188,11 +208,11 @@ class Topic {
     this.title = arg.title;
     this.courseOrder = arg.course_order;
     this.tips = arg.tips
-  }
+  };
   formatTopicTitle() {
-    return `<li topic-id="${this.id}" class="list-group-item">${this.title}</li>`
-  }
-}
+    return `<li topic-id='${this.id}' class='list-group-item'>${this.title}</li>`;
+  };
+};
 
 class Tip {
   constructor(arg) {
@@ -201,7 +221,7 @@ class Tip {
     this.link = arg.link;
     this.resource_type = arg.resource_type;
     this.time_requirement = arg.time_requirement;
-  }
+  };
   formatTip() {
     return `<div class='card'>
       <div class='card-body'>
@@ -210,9 +230,9 @@ class Tip {
         <p>${this.resource_type}</p>
         <p>${this.time_requirement}</p>
       </div>
-    </div>`
-  }
-}
+    </div>`;
+  };
+};
 
 </script>
 
