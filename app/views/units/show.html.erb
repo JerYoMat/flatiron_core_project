@@ -56,15 +56,6 @@ const getAndCreateTopics = () => {
     })
 }
 
-const createAndLoadTips = (evt) => {
-  let topicId = evt.target.getAttribute('topic-id')
-  const selectedTopic = topicList.filter(t => t.id == topicId)[0];
-  $(".place_for_tips").empty()
-  selectedTopic.tips.forEach((tipData) => {
-    tip = new Tip(tipData)
-    $(".place_for_tips").append(tip.formatTip());
-  })
-}
 
 const showUnitAndTopics = async () => {
   let promise = new Promise((resolve) => {
@@ -126,10 +117,17 @@ const logInUser = async (evt) => {
   evt.preventDefault()
   let promise = new Promise((resolve) => {
     const formData = $('form').serialize()
-    resolve($.post('/login', formData))
+    resolve($.post('/login_remote', formData))
   })
   let result = await promise
-  window.location.pathname = `/units/${unitId}`
+  if (result.id) {
+   window.location.pathname = `/units/${unitId}`
+  } else {
+    const errorMessage = $('#error-message');
+    errorMessage.text('invalid email password combination');
+    errorMessage.addClass('alert alert-danger')
+  }
+  
 }
 
 const removeModal = () => {
@@ -145,6 +143,15 @@ $(document).ready(() => {
 })
 
 
+const createAndLoadTips = (evt) => {
+  let topicId = evt.target.getAttribute('topic-id')
+  const selectedTopic = topicList.filter(t => t.id == topicId)[0];
+  $(".place_for_tips").empty()
+  selectedTopic.tips.forEach((tipData) => {
+    tip = new Tip(tipData)
+    $(".place_for_tips").append(tip.formatTip());
+  })
+}
 
 
 
