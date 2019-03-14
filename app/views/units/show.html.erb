@@ -33,11 +33,9 @@ const loadPrevUnit = () => {
   topicList = [];
   showUnitAndTopics();
 };
-function getAndCreateTopics() {
+const getAndCreateTopics = () => {
   fetch(`${unitId}/topics`)
-    .then(function(topicsData){
-      return topicsData.json();
-    })
+    .then((topicsData) => (topicsData.json()))
     .then(function(topicsData) {
       let topicTitleString = ''
       topicsData.forEach((topicData) => {
@@ -48,19 +46,19 @@ function getAndCreateTopics() {
       });
       $("#topics_container").html(topicTitleString);
     })
-    .then(function() {
-        $("li").each(function() {
-          $(this).click(()=>{
-          $('li').removeClass("active");
-          $(this).addClass('active');
+    .then(() => {
+        $("li").each(() => {
+          $(this).click((evt)=>{
+            $('li').removeClass("active");
+            $(evt.target).addClass('active');
           });
           $(this).click(createAndLoadTips);
         });
     })
 }
 
-function createAndLoadTips() {
-  let topicId = this.getAttribute('topic-id')
+const createAndLoadTips = (evt) => {
+  let topicId = evt.target.getAttribute('topic-id')
   const selectedTopic = topicList.filter( t => t.id == topicId
   )[0];
   $(".place_for_tips").empty()
@@ -69,7 +67,8 @@ function createAndLoadTips() {
     $(".place_for_tips").append(tip.formatTip()); 
   })
 }
-async function showUnitAndTopics() {
+
+const showUnitAndTopics = async () => {
  let promise = new Promise((resolve) => {
     resolve(getCreateAndRenderUnit())
  });
