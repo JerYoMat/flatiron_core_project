@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get 'units/count', to: 'units#unit_max_min'
   resources :users
   resources :tips 
-  resources :units, only: [:index, :show]
+  resources :units
   resources :lessons, only: [:show] 
   resources :ratings, only: [:new, :edit, :update, :destroy] 
 

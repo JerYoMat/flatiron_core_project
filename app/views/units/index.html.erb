@@ -1,8 +1,131 @@
 <% provide(:title, "Units") %>
 
 <div class="row h-100 justify-content-center align-items-center">
-    <div class="col-md-10 offset-1">
+    <div id="unit-div" class="col-md-10 offset-1">
+         <button id='unitButton'>Add Unit</button>
+         <div id='form_container'></div>
          <h1>Unit Index</h1>
          <%= render partial: "unit", collection: @units %>
     </div>
+    <div id="modal-div">
+    </div>
+    
 </div>
+<script>
+
+
+
+const loginForm = () => (
+  `<div id='login' class='modal'>
+    <!-- Modal content -->
+    <div class='modal-content'>
+      <span class='close'>&times;</span>
+      <div class='card'>
+        <article class='card-body'>
+          <h4 class='card-title text-center mb-4 mt-1'>Sign in</h4>
+          <p id='error-message'></p>
+          <hr>
+          <form>
+            <div class='form-group'>
+              <div class='input-group'>
+                <div class='input-group-prepend'>
+                  <span class='input-group-text'> <i class='fa fa-user'></i> </span>
+                </div>
+                <input name='title' class='form-control' placeholder='title' type='text'>
+              </div> <!-- input-group.// -->
+            </div> <!-- form-group// -->
+            <div class='form-group'>
+              <div class='input-group'>
+                <div class='input-group-prepend'>
+                  <span class='input-group-text'> <i class='fa fa-lock'></i> </span>
+                </div>
+                <input class='form-control' name='courseOrder' type='number' placeholder="99999">
+              </div> <!-- input-group.// -->
+            </div> <!-- form-group// -->
+            <div class='form-group'>
+              <div class='input-group'>
+                <div class='input-group-prepend'>
+                  <span class='input-group-text'> <i class='fa fa-camera-retro'></i> </span>
+                </div>
+                <input class='form-control' name='imageName' type='text'>
+              </div> <!-- input-group.// -->
+            </div> <!-- form-group// -->
+            <div class='form-group'>
+              <button type='submit' class='btn btn-primary btn-block'> Login </button>
+            </div> <!-- form-group// -->
+          </form>
+        </article>
+      </div> <!-- card.// -->
+    </div>
+  </div>`
+)
+
+const renderLoginModal = async (evt) => {
+  evt.preventDefault();
+  const modalContainer = $('#modal-div');
+  let promise = new Promise((resolve) => {
+    resolve(modalContainer.append(loginForm));
+  });
+  let result = await promise; 
+  const formElement = $('form');
+  const closeButton = $('.close');
+  formElement.submit(logInUser);
+  closeButton.click(removeModal);
+}
+
+const logInUser = async (evt) => {
+  evt.preventDefault();
+  let promise = new Promise((resolve) => {
+    const formElement = $('form');
+    const formData = formElement.serialize();
+    formSubmitUrl = '/units';
+    resolve($.post(formSubmitUrl, formData));
+  })
+  let result = await promise;
+  unit = new Unit(result)
+  unitCard = unit.unitCard()
+  $('#unit-div').append(unitCard)
+  removeModal()
+  console.log(unitCard)
+}
+
+
+
+
+
+
+const removeModal = () => {
+  const modalDiv = $('#modal-div');
+  modalDiv.empty();
+}
+
+
+
+$(document).ready(() => {
+  $('#unitButton').click(renderLoginModal);
+});
+
+
+
+
+class Unit {
+  constructor(arg) {
+    this.id = arg.id;
+    this.title = arg.title;
+    this.imageName = arg.image_path;
+  };
+
+  unitCard () {
+return(
+ `<a href="/units/${this.id}">
+<div id="unit_card" class="card">
+   <img src=/assets/${this.imageName}>
+  <div class="card-body">
+    <h5 class="card-title">${this.title}</h5>
+  </div>
+</div>
+</a>`
+) 
+}
+};
+</script>
