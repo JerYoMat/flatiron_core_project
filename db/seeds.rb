@@ -40,7 +40,7 @@ end
 
 #Adding Unit Images 
 intro_ruby = Unit.find(1)
-intro_ruby.image_path ='ruby_first.png'
+intro_ruby.image_path = 'ruby_first.png'
 intro_ruby.save 
 
 git = Unit.find(2)

@@ -19,13 +19,11 @@ const getCreateAndRenderUnit = () => {
     .then((unitData) => {
       unit = new Unit(unitData);
       const baseTemplate = unit.baseTemplate();
-      pseudoRoot.html(baseTemplate); 
-    })
-    .then(() => {
+      pseudoRoot.html(baseTemplate);
       const nextButton = $('#next-unit');
       const prevButton = $('#prev-unit');
       nextButton.click(loadNextUnit);
-      prevButton.click(loadPrevUnit);
+      prevButton.click(loadPrevUnit); 
     })
 }
 
@@ -214,6 +212,9 @@ class Topic {
     return `<li topic-id='${this.id}' class='list-group-item'>${this.title}</li>`;
   };
 };
+
+
+
 
 class Tip {
   constructor(arg) {
